@@ -20,10 +20,8 @@ namespace DatabaseFirst
         {
             _IProductRepository = iProductRepository;
             InitializeComponent();
-         
-
+       
         }
-
         private void frmProducts_Load(object sender, EventArgs e)
         {
             CargarDatos();
@@ -36,13 +34,6 @@ namespace DatabaseFirst
             txtUnitOnOrder.DataBindings.Add("Text", bindingSource1, "UnitsOnOrder");
             txtReordderLevel.DataBindings.Add("Text", bindingSource1, "ReorderLevel");
             checkBox1.DataBindings.Add("Checked", bindingSource1, "Discontinued");
-        }
-
-
-
-        private void dgvProducts_SelectionChanged(object sender, EventArgs e)
-        {
-
         }
         public void CargarDatos()
         {
