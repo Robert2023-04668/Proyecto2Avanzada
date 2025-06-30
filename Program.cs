@@ -1,9 +1,11 @@
+using DatabaseFirst.Forms.UI;
 using DatabaseFirst.Models;
 using DatabaseFirst.Repositories;
+using DatabaseFirst.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using static DatabaseFirst.Repositories.IProductRepository;
+using static DatabaseFirst.Repositories.Interfaces.IProductRepository;
 
 namespace DatabaseFirst
 {
@@ -24,11 +26,13 @@ namespace DatabaseFirst
             }
             );
             services.AddScoped<IProductRepository, ProductsRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<frmCategories>();
             services.AddTransient<frmProducts>();
             var serviceProvider = services.BuildServiceProvider();
 
             ApplicationConfiguration.Initialize();
-            var main = serviceProvider.GetRequiredService<frmProducts>();
+            var main = serviceProvider.GetRequiredService<frmCategories>();
             Application.Run(main);
           
         }

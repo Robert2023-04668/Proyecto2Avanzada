@@ -1,22 +1,10 @@
 ﻿using DatabaseFirst.Models;
+using DatabaseFirst.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DatabaseFirst.Repositories
 {
-    public interface IProductRepository
-    {
-        Product GetById(int id);
-        IEnumerable<Product> GetProducts();
-        void Add(Product product);
-        void Update(Product product);
-        void Delete(Product product);
-
-        public class ProductsRepository : IProductRepository
+    public class ProductsRepository : IProductRepository
         {
             private readonly NorthwindContext _context;
 
@@ -55,18 +43,18 @@ namespace DatabaseFirst.Repositories
                     _context.SaveChanges();
                 }
             }
-            public void Delete(Product product)
+            public void Delete(int productId)
             {
-                var existing = _context.Products.Find(product.ProductId);
+                var existing = _context.Products.Find(productId);
 
                 if (existing != null)
                 {
                    
-                    existing.Discontinued = product.Discontinued = true;
+                    existing.Discontinued = true;
                     _context.SaveChanges();
                 }
             }
            
         }
-    }
+    
 }

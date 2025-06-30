@@ -1,5 +1,5 @@
 ﻿using DatabaseFirst.Models;
-using DatabaseFirst.Repositories;
+using DatabaseFirst.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -71,8 +71,8 @@ namespace DatabaseFirst
 
                 if (currentProduct.ProductId == 0)
                 {
-                    MessageBox.Show("Seguro de que quiere Crear este producto?", "Actulizar", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                    var result = DialogResult;
+                    var result = MessageBox.Show("Seguro de que quiere Crear este producto?", "Actulizar", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                    
 
                     if (result == DialogResult.OK)
                     {
@@ -103,8 +103,7 @@ namespace DatabaseFirst
                 }
                 else
                 {
-                    MessageBox.Show("Seguro de que quiere actualizar este producto?", "Actulizar", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                    var result = DialogResult;
+                    var result = MessageBox.Show("Seguro de que quiere actualizar este producto?", "Actulizar", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
 
                     if (result == DialogResult.OK)
                     {
