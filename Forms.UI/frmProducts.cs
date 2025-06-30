@@ -141,22 +141,10 @@ namespace DatabaseFirst
         {
             if (bindingSource1.Current is ProductViewModel currentProduct)
             {
-                var product = new Product
-                {
-                    ProductId = currentProduct.ProductId,
-                    ProductName = currentProduct.Product,               // Nombre
-                    CategoryId = currentProduct.CategoryId,
-                    SupplierId = currentProduct.SupplierId,
-                    QuantityPerUnit = currentProduct.QuantityPerUnit,   // Cantidad por unidad
-                    UnitPrice = currentProduct.UnitPrice,               // Precio unitario
-                    UnitsInStock = currentProduct.UnitsInStock,         // Unidades en stock
-                    UnitsOnOrder = currentProduct.UnitsOnOrder,         // Unidades en orden
-                    ReorderLevel = currentProduct.ReorderLevel,         // Nivel de reorden
-                    Discontinued = currentProduct.Discontinued
-                };
-                _IProductRepository.Delete(product);
+                int productId = currentProduct.ProductId;
+                _IProductRepository.Delete(productId);
                 CargarDatos();
-                MessageBox.Show("Producto registrado Correctamente");
+                MessageBox.Show("Producto eliminado Correctamente");
 
             }
         }
@@ -187,6 +175,7 @@ namespace DatabaseFirst
         public string Product { get; set; } = null!;
         public string? Category { get; set; }
         public int? CategoryId { get; set; }
+      
         public int? SupplierId { get; set; }
         public string? Supplier { get; set; }
         public string? QuantityPerUnit { get; set; }

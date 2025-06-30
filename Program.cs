@@ -27,12 +27,14 @@ namespace DatabaseFirst
             );
             services.AddScoped<IProductRepository, ProductsRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IOrdersRepository , OrdersRepository>();
             services.AddTransient<frmCategories>();
             services.AddTransient<frmProducts>();
+            services.AddTransient<frmOrders>();
             var serviceProvider = services.BuildServiceProvider();
 
             ApplicationConfiguration.Initialize();
-            var main = serviceProvider.GetRequiredService<frmCategories>();
+            var main = serviceProvider.GetRequiredService<frmOrders>();
             Application.Run(main);
           
         }

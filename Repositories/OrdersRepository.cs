@@ -16,7 +16,13 @@ namespace DatabaseFirst.Repositories
 
         public Order GetById(int id) => _context.Orders.Find(id);
 
-        public IEnumerable<Order> GetOrders() => _context.Orders.AsNoTracking().ToList();
+        //public IEnumerable<Order> GetOrders() => _context.Orders.Include(o=> o.Employee).Include(o=> o.Customer).AsNoTracking().ToList();
+
+        public IEnumerable<Order> GetOrders()
+        {
+            return
+                _context.Orders.Include(_o => _o.Employee).Include(o => o.Customer).AsNoTracking().ToList();
+        }
 
         public void Add(Order order)
         {
