@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DatabaseFirst.Models;
+﻿namespace DatabaseFirst.Models;
 
 public partial class SummaryOfSalesByYear
 {

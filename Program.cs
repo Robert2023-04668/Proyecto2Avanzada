@@ -5,7 +5,6 @@ using DatabaseFirst.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using static DatabaseFirst.Repositories.Interfaces.IProductRepository;
 
 namespace DatabaseFirst
 {
@@ -15,7 +14,7 @@ namespace DatabaseFirst
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             var services = new ServiceCollection();
@@ -27,16 +26,18 @@ namespace DatabaseFirst
             );
             services.AddScoped<IProductRepository, ProductsRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IOrdersRepository , OrdersRepository>();
+            services.AddScoped<IOrdersRepository, OrdersRepository>();
+            services.AddScoped<ISupplierRepository, SupplierRepository>();
+            services.AddTransient<frmSuppliers>();
             services.AddTransient<frmCategories>();
             services.AddTransient<frmProducts>();
             services.AddTransient<frmOrders>();
             var serviceProvider = services.BuildServiceProvider();
 
             ApplicationConfiguration.Initialize();
-            var main = serviceProvider.GetRequiredService<frmOrders>();
+            var main = serviceProvider.GetRequiredService<frmProducts>();
             Application.Run(main);
-          
+
         }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseFirst.Repositories
 {
-    public class OrdersRepository: IOrdersRepository
+    public class OrdersRepository : IOrdersRepository
     {
         public NorthwindContext _context = new NorthwindContext();
 
@@ -12,6 +12,7 @@ namespace DatabaseFirst.Repositories
         {
             _context = context;
         }
+
 
 
         public Order GetById(int id) => _context.Orders.Find(id);
@@ -41,7 +42,7 @@ namespace DatabaseFirst.Repositories
         public void Delete(int orderId)
         {
             var existing = _context.Orders.Find(orderId);
-            
+
             if (existing != null)
             {
                 _context.Orders.Remove(existing);

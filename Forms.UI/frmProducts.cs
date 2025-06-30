@@ -1,14 +1,6 @@
 ﻿using DatabaseFirst.Models;
 using DatabaseFirst.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace DatabaseFirst
 {
@@ -20,7 +12,6 @@ namespace DatabaseFirst
         {
             _IProductRepository = iProductRepository;
             InitializeComponent();
-       
         }
         private void frmProducts_Load(object sender, EventArgs e)
         {
@@ -72,7 +63,7 @@ namespace DatabaseFirst
                 if (currentProduct.ProductId == 0)
                 {
                     var result = MessageBox.Show("Seguro de que quiere Crear este producto?", "Actulizar", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                    
+
 
                     if (result == DialogResult.OK)
                     {
@@ -163,9 +154,6 @@ namespace DatabaseFirst
             txtUnitOnOrder.Text = "";
             txtReordderLevel.Text = "";
             checkBox1.Checked = false;
-
-           
-            
         }
     }
 
@@ -175,7 +163,6 @@ namespace DatabaseFirst
         public string Product { get; set; } = null!;
         public string? Category { get; set; }
         public int? CategoryId { get; set; }
-      
         public int? SupplierId { get; set; }
         public string? Supplier { get; set; }
         public string? QuantityPerUnit { get; set; }

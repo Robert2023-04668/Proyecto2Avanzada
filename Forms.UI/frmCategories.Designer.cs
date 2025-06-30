@@ -49,7 +49,7 @@
             dgvCategory.BackgroundColor = Color.WhiteSmoke;
             dgvCategory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCategory.Dock = DockStyle.Right;
-            dgvCategory.Location = new Point(313, 0);
+            dgvCategory.Location = new Point(314, 0);
             dgvCategory.MultiSelect = false;
             dgvCategory.Name = "dgvCategory";
             dgvCategory.ReadOnly = true;
@@ -87,31 +87,31 @@
             // 
             // Deletebtn
             // 
-            Deletebtn.BackColor = Color.Firebrick;
+            Deletebtn.BackColor = Color.FromArgb(220, 53, 69);
             Deletebtn.FlatStyle = FlatStyle.Popup;
             Deletebtn.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
             Deletebtn.Location = new Point(12, 514);
             Deletebtn.Name = "Deletebtn";
             Deletebtn.Size = new Size(285, 36);
             Deletebtn.TabIndex = 23;
-            Deletebtn.Text = "Delete";
+            Deletebtn.Text = "DELETE";
             Deletebtn.UseVisualStyleBackColor = false;
             // 
             // CancelBtn
             // 
-            CancelBtn.BackColor = SystemColors.ButtonShadow;
+            CancelBtn.BackColor = Color.FromArgb(33, 150, 243);
             CancelBtn.FlatStyle = FlatStyle.Popup;
             CancelBtn.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
             CancelBtn.Location = new Point(12, 472);
             CancelBtn.Name = "CancelBtn";
             CancelBtn.Size = new Size(285, 36);
             CancelBtn.TabIndex = 22;
-            CancelBtn.Text = "Cancel";
+            CancelBtn.Text = "CLEAN";
             CancelBtn.UseVisualStyleBackColor = false;
             // 
             // OkBtn
             // 
-            OkBtn.BackColor = Color.SeaGreen;
+            OkBtn.BackColor = Color.FromArgb(40, 167, 69);
             OkBtn.FlatStyle = FlatStyle.Popup;
             OkBtn.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
             OkBtn.Location = new Point(12, 430);
@@ -144,7 +144,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(880, 561);
+            ClientSize = new Size(881, 561);
             Controls.Add(richTextBox1);
             Controls.Add(label3);
             Controls.Add(Deletebtn);

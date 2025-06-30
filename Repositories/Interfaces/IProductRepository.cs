@@ -1,9 +1,4 @@
 ﻿using DatabaseFirst.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DatabaseFirst.Repositories.Interfaces
 {
@@ -15,5 +10,5 @@ namespace DatabaseFirst.Repositories.Interfaces
         void Update(Product product);
         void Delete(int productId);
     }
-    
+
 }

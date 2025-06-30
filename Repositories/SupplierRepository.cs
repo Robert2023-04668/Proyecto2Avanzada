@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseFirst.Repositories
 {
-    public class SupplierRepository:ISupplierRepository
+    public class SupplierRepository : ISupplierRepository
     {
-        NorthwindContext _context = new NorthwindContext();
+        private NorthwindContext _context = new NorthwindContext();
         public SupplierRepository(NorthwindContext context)
         {
             _context = context;

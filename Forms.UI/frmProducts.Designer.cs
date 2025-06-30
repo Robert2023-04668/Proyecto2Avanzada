@@ -71,6 +71,7 @@
             // txtCategory
             // 
             txtCategory.BorderStyle = BorderStyle.FixedSingle;
+            txtCategory.Font = new Font("Times New Roman", 10.2F);
             txtCategory.Location = new Point(154, 121);
             txtCategory.Name = "txtCategory";
             txtCategory.Size = new Size(125, 27);
@@ -79,6 +80,7 @@
             // txtProduct
             // 
             txtProduct.BorderStyle = BorderStyle.FixedSingle;
+            txtProduct.Font = new Font("Times New Roman", 10.2F);
             txtProduct.Location = new Point(154, 79);
             txtProduct.Name = "txtProduct";
             txtProduct.Size = new Size(125, 27);
@@ -87,6 +89,7 @@
             // txtQPU
             // 
             txtQPU.BorderStyle = BorderStyle.FixedSingle;
+            txtQPU.Font = new Font("Times New Roman", 10.2F);
             txtQPU.Location = new Point(154, 205);
             txtQPU.Name = "txtQPU";
             txtQPU.Size = new Size(125, 27);
@@ -95,6 +98,7 @@
             // txtUnitInStock
             // 
             txtUnitInStock.BorderStyle = BorderStyle.FixedSingle;
+            txtUnitInStock.Font = new Font("Times New Roman", 10.2F);
             txtUnitInStock.Location = new Point(154, 289);
             txtUnitInStock.Name = "txtUnitInStock";
             txtUnitInStock.Size = new Size(125, 27);
@@ -103,6 +107,7 @@
             // txtUnitOnOrder
             // 
             txtUnitOnOrder.BorderStyle = BorderStyle.FixedSingle;
+            txtUnitOnOrder.Font = new Font("Times New Roman", 10.2F);
             txtUnitOnOrder.Location = new Point(154, 331);
             txtUnitOnOrder.Name = "txtUnitOnOrder";
             txtUnitOnOrder.Size = new Size(125, 27);
@@ -111,6 +116,7 @@
             // txtSupplier
             // 
             txtSupplier.BorderStyle = BorderStyle.FixedSingle;
+            txtSupplier.Font = new Font("Times New Roman", 10.2F);
             txtSupplier.Location = new Point(154, 163);
             txtSupplier.Name = "txtSupplier";
             txtSupplier.Size = new Size(125, 27);
@@ -119,6 +125,7 @@
             // txtUnitprice
             // 
             txtUnitprice.BorderStyle = BorderStyle.FixedSingle;
+            txtUnitprice.Font = new Font("Times New Roman", 10.2F);
             txtUnitprice.Location = new Point(154, 247);
             txtUnitprice.Name = "txtUnitprice";
             txtUnitprice.Size = new Size(125, 27);
@@ -127,6 +134,7 @@
             // txtReordderLevel
             // 
             txtReordderLevel.BorderStyle = BorderStyle.FixedSingle;
+            txtReordderLevel.Font = new Font("Times New Roman", 10.2F);
             txtReordderLevel.Location = new Point(154, 373);
             txtReordderLevel.Name = "txtReordderLevel";
             txtReordderLevel.Size = new Size(125, 27);
@@ -225,7 +233,7 @@
             // 
             // OkBtn
             // 
-            OkBtn.BackColor = Color.SeaGreen;
+            OkBtn.BackColor = Color.FromArgb(40, 167, 69);
             OkBtn.FlatStyle = FlatStyle.Popup;
             OkBtn.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
             OkBtn.Location = new Point(12, 471);
@@ -238,27 +246,27 @@
             // 
             // CancelBtn
             // 
-            CancelBtn.BackColor = SystemColors.ButtonShadow;
+            CancelBtn.BackColor = Color.FromArgb(33, 150, 243);
             CancelBtn.FlatStyle = FlatStyle.Popup;
             CancelBtn.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
             CancelBtn.Location = new Point(12, 513);
             CancelBtn.Name = "CancelBtn";
             CancelBtn.Size = new Size(267, 36);
             CancelBtn.TabIndex = 19;
-            CancelBtn.Text = "Cancel";
+            CancelBtn.Text = "CANCEL";
             CancelBtn.UseVisualStyleBackColor = false;
             CancelBtn.Click += CancelBtn_Click;
             // 
             // Deletebtn
             // 
-            Deletebtn.BackColor = Color.Firebrick;
+            Deletebtn.BackColor = Color.FromArgb(220, 53, 69);
             Deletebtn.FlatStyle = FlatStyle.Popup;
             Deletebtn.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
             Deletebtn.Location = new Point(12, 555);
             Deletebtn.Name = "Deletebtn";
             Deletebtn.Size = new Size(267, 36);
             Deletebtn.TabIndex = 20;
-            Deletebtn.Text = "Delete";
+            Deletebtn.Text = "DELETE";
             Deletebtn.UseVisualStyleBackColor = false;
             Deletebtn.Click += Deletebtn_Click;
             // 

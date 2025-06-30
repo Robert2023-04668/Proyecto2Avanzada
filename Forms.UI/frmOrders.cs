@@ -1,13 +1,5 @@
 ﻿using DatabaseFirst.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace DatabaseFirst.Forms.UI
 {
@@ -33,7 +25,7 @@ namespace DatabaseFirst.Forms.UI
                 CustomerId = p.CustomerId,
                 Customer = p.Customer != null ? p.Customer.ContactName : "No Customer",
                 EmployeeId = p.EmployeeId,
-                Employee= p.Employee != null ? p.Employee.FirstName + " " + p.Employee.LastName : " No employee",
+                Employee = p.Employee != null ? p.Employee.FirstName + " " + p.Employee.LastName : " No employee",
                 Freight = p.Freight,
                 RequiredDate = p.RequiredDate,
                 ShippedDate = p.ShippedDate,
@@ -56,14 +48,9 @@ namespace DatabaseFirst.Forms.UI
             dataGridView1.Columns["ShipCity"].Visible = false;
             dataGridView1.Columns["ShipVia"].Visible = false;
             dataGridView1.Columns["CustomerId"].Visible = false;
-          
-
-
-         
 
         }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void frmOrders_Load(object sender, EventArgs e)
         {
 
         }
@@ -75,11 +62,11 @@ namespace DatabaseFirst.Forms.UI
 
         public string? CustomerId { get; set; }
 
-        public string? Customer{ get; set; }
+        public string? Customer { get; set; }
 
         public int? EmployeeId { get; set; }
 
-        public string? Employee { get; set; }   
+        public string? Employee { get; set; }
 
         public DateTime? OrderDate { get; set; }
 
