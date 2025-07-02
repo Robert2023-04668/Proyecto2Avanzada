@@ -187,7 +187,7 @@ namespace DatabaseFirst
                 };
 
                 LimpiarTextbox();
-                
+
             }
         }
     }
