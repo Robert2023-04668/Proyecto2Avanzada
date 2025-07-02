@@ -67,6 +67,7 @@
             dgvProducts.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dgvProducts.Size = new Size(1120, 602);
             dgvProducts.TabIndex = 0;
+            dgvProducts.SelectionChanged += dgvProducts_SelectionChanged;
             // 
             // txtCategory
             // 
