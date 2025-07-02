@@ -1,4 +1,5 @@
-﻿using DatabaseFirst.Repositories.Interfaces;
+﻿using DatabaseFirst.Models;
+using DatabaseFirst.Repositories.Interfaces;
 
 namespace DatabaseFirst.Forms.UI
 {
@@ -52,6 +53,67 @@ namespace DatabaseFirst.Forms.UI
             txtPhone.DataBindings.Add("Text", bindingSource1, "Phone");
             txtPostalCode.DataBindings.Add("Text", bindingSource1, "PostalCode");
             txtRegion.DataBindings.Add("Text", bindingSource1, "Region");
+        }
+
+        private void OkBtn_Click(object sender, EventArgs e)
+        {
+            if (bindingSource1.Current is SuppliersViewModel currentSupplier)
+            {
+                if (currentSupplier.SupplierId == 0)
+                {
+                    var result = MessageBox.Show("Esta seguro de querer agregar este suplidor", "Agregar", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                    if (result == DialogResult.OK)
+                    {
+                        Supplier supplier = new Supplier();
+                        supplier.SupplierId = currentSupplier.SupplierId;
+                        supplier.Address = currentSupplier.Address;
+                        supplier.City = currentSupplier.City;
+                        supplier.Region = currentSupplier.Region;
+                        supplier.CompanyName = currentSupplier.CompanyName;
+                        supplier.Country = currentSupplier.Country;
+                        supplier.Phone = currentSupplier.Phone;
+                        supplier.Fax = currentSupplier.Fax;
+                        supplier.ContactName = currentSupplier.ContactName;
+                        supplier.ContactTitle = currentSupplier.ContactTitle;
+                        supplier.HomePage = currentSupplier.HomePage;
+                        supplier.PostalCode = currentSupplier.PostalCode;
+
+                        _supplierRepository.Add(supplier);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else if (currentSupplier.SupplierId != 0)
+                {
+                    var result = MessageBox.Show("Esta seguro de querer Actualizar este suplidor", "Agregar", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                    if (result == DialogResult.OK)
+                    {
+                        Supplier supplier = new Supplier();
+                        supplier.SupplierId = currentSupplier.SupplierId;
+                        supplier.Address = currentSupplier.Address;
+                        supplier.City = currentSupplier.City;
+                        supplier.Region = currentSupplier.Region;
+                        supplier.CompanyName = currentSupplier.CompanyName;
+                        supplier.Country = currentSupplier.Country;
+                        supplier.Phone = currentSupplier.Phone;
+                        supplier.Fax = currentSupplier.Fax;
+                        supplier.ContactName = currentSupplier.ContactName;
+                        supplier.ContactTitle = currentSupplier.ContactTitle;
+                        supplier.HomePage = currentSupplier.HomePage;
+                        supplier.PostalCode = currentSupplier.PostalCode;
+
+                        _supplierRepository.Update(supplier);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+
+            }
+
         }
     }
 

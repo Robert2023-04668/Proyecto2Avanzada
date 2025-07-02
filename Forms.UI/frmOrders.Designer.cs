@@ -39,17 +39,18 @@
             // 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(402, -2);
+            dataGridView1.Dock = DockStyle.Right;
+            dataGridView1.Location = new Point(373, 0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(769, 676);
+            dataGridView1.Size = new Size(784, 674);
             dataGridView1.TabIndex = 0;
             // 
             // frmOrders
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1171, 674);
+            ClientSize = new Size(1157, 674);
             Controls.Add(dataGridView1);
             Name = "frmOrders";
             Text = "frmOrders";

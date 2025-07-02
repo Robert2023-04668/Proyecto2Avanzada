@@ -38,7 +38,7 @@
             CancelBtn = new Button();
             OkBtn = new Button();
             label3 = new Label();
-            richTextBox1 = new RichTextBox();
+            txtDescription = new RichTextBox();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCategory).BeginInit();
             SuspendLayout();
@@ -120,6 +120,7 @@
             OkBtn.TabIndex = 21;
             OkBtn.Text = "OK";
             OkBtn.UseVisualStyleBackColor = false;
+            OkBtn.Click += OkBtn_Click;
             // 
             // label3
             // 
@@ -131,21 +132,21 @@
             label3.TabIndex = 24;
             label3.Text = "Categories";
             // 
-            // richTextBox1
+            // txtDescription
             // 
-            richTextBox1.Font = new Font("Times New Roman", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            richTextBox1.Location = new Point(116, 158);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(181, 90);
-            richTextBox1.TabIndex = 25;
-            richTextBox1.Text = "";
+            txtDescription.Font = new Font("Times New Roman", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtDescription.Location = new Point(116, 158);
+            txtDescription.Name = "txtDescription";
+            txtDescription.Size = new Size(181, 90);
+            txtDescription.TabIndex = 25;
+            txtDescription.Text = "";
             // 
             // frmCategories
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(881, 561);
-            Controls.Add(richTextBox1);
+            Controls.Add(txtDescription);
             Controls.Add(label3);
             Controls.Add(Deletebtn);
             Controls.Add(CancelBtn);
@@ -175,6 +176,6 @@
         private Button CancelBtn;
         private Button OkBtn;
         private Label label3;
-        private RichTextBox richTextBox1;
+        private RichTextBox txtDescription;
     }
 }

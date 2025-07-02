@@ -13,7 +13,6 @@ namespace DatabaseFirst.Forms.UI
             CargarDatos();
         }
 
-
         public void CargarDatos()
         {
             var Orders = _ordersRepository.GetOrders().Select(p => new OrdersViewModel

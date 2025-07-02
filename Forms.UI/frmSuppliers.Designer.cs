@@ -107,6 +107,7 @@
             OkBtn.TabIndex = 21;
             OkBtn.Text = "OK";
             OkBtn.UseVisualStyleBackColor = false;
+            OkBtn.Click += OkBtn_Click;
             // 
             // txtCName
             // 

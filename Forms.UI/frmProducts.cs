@@ -1,5 +1,6 @@
 ﻿using DatabaseFirst.Models;
 using DatabaseFirst.Repositories.Interfaces;
+using DatabaseFirst.Services;
 using System.Data;
 
 namespace DatabaseFirst
@@ -7,15 +8,20 @@ namespace DatabaseFirst
     public partial class frmProducts : Form
     {
         private readonly IProductRepository _IProductRepository;
+        private readonly ProductValidation _validationRules;
 
-        public frmProducts(IProductRepository iProductRepository)
+
+
+        public frmProducts(IProductRepository iProductRepository, ProductValidation validationRules)
         {
             _IProductRepository = iProductRepository;
+            _validationRules = validationRules;
             InitializeComponent();
+            CargarDatos();
         }
         private void frmProducts_Load(object sender, EventArgs e)
         {
-            CargarDatos();
+           
             txtProduct.DataBindings.Add("Text", bindingSource1, "Product");
             txtCategory.DataBindings.Add("Text", bindingSource1, "Category");
             txtSupplier.DataBindings.Add("Text", bindingSource1, "Supplier");
@@ -26,6 +32,8 @@ namespace DatabaseFirst
             txtReordderLevel.DataBindings.Add("Text", bindingSource1, "ReorderLevel");
             checkBox1.DataBindings.Add("Checked", bindingSource1, "Discontinued");
         }
+
+
         public void CargarDatos()
         {
             var products = _IProductRepository.GetProducts()
@@ -55,9 +63,25 @@ namespace DatabaseFirst
 
         private void OkBtn_Click(object sender, EventArgs e)
         {
+            var productVM = new ProductViewModel
+            {
+                UnitPrice = Decimal.Parse(txtUnitprice.Text),
+                UnitsInStock = short.Parse(txtUnitInStock.Text),
+                UnitsOnOrder = short.Parse(txtUnitOnOrder.Text),
+                QuantityPerUnit = txtQPU.Text,
+                ReorderLevel = short.Parse(txtReordderLevel.Text),
+                Product = txtProduct.Text,
+            };
+            var resutls = _validationRules.Validate(productVM);
+            if (!resutls.IsValid)
+            {
+                foreach (var failure in resutls.Errors)
+                {
+                    MessageBox.Show(failure.ErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
 
-
-            if (bindingSource1.Current is ProductViewModel currentProduct)
+            else if (bindingSource1.Current is ProductViewModel currentProduct)
             {
 
                 if (currentProduct.ProductId == 0)
@@ -82,7 +106,6 @@ namespace DatabaseFirst
                             Discontinued = currentProduct.Discontinued
                         };
                         _IProductRepository.Add(product);
-                        CargarDatos();
                         MessageBox.Show("Producto registrado Correctamente");
                     }
                     else if (result == DialogResult.Cancel)
@@ -113,7 +136,7 @@ namespace DatabaseFirst
                             Discontinued = currentProduct.Discontinued
                         };
                         _IProductRepository.Update(product);
-                        CargarDatos();
+                      
                         MessageBox.Show("Producto registrado Correctamente");
                     }
                     else if (result == DialogResult.Cancel)
@@ -134,7 +157,7 @@ namespace DatabaseFirst
             {
                 int productId = currentProduct.ProductId;
                 _IProductRepository.Delete(productId);
-                CargarDatos();
+
                 MessageBox.Show("Producto eliminado Correctamente");
 
             }

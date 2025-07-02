@@ -2,9 +2,11 @@ using DatabaseFirst.Forms.UI;
 using DatabaseFirst.Models;
 using DatabaseFirst.Repositories;
 using DatabaseFirst.Repositories.Interfaces;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace DatabaseFirst
 {
@@ -28,6 +30,7 @@ namespace DatabaseFirst
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IOrdersRepository, OrdersRepository>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddTransient<frmSuppliers>();
             services.AddTransient<frmCategories>();
             services.AddTransient<frmProducts>();
