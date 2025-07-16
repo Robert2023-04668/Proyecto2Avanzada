@@ -12,8 +12,8 @@ namespace DatabaseFirst.Repositories
         {
             _context = context;
         }
-         
-        public Category GetById (int id) => _context.Categories.Find(id);
+
+        public Category GetById(int id) => _context.Categories.Find(id);
 
         public IEnumerable<Category> GetCategories()
         {
@@ -31,7 +31,7 @@ namespace DatabaseFirst.Repositories
             var existing = _context.Categories.Find(category.CategoryId);
             if (existing != null)
             {
-             existing.CategoryName = category.CategoryName;
+                existing.CategoryName = category.CategoryName;
                 existing.Description = category.Description;
                 existing.Picture = category.Picture;
                 existing.Products = category.Products;
@@ -47,7 +47,6 @@ namespace DatabaseFirst.Repositories
                 _context.Categories.Remove(existing);
                 _context.SaveChanges();
             }
-            
         }
     }
 }

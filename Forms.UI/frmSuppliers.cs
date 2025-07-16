@@ -1,15 +1,21 @@
 ﻿using DatabaseFirst.Models;
 using DatabaseFirst.Repositories.Interfaces;
+using DatabaseFirst.Services;
 
 namespace DatabaseFirst.Forms.UI
 {
     public partial class frmSuppliers : Form
     {
         private readonly ISupplierRepository _supplierRepository;
-        public frmSuppliers(ISupplierRepository supplierRepository)
+        private SuppliersViewModel _supplierViewModel;
+        private readonly SupplierValidation _validationRules;
+
+        public frmSuppliers(ISupplierRepository supplierRepository, SupplierValidation validationRules)
         {
-            _supplierRepository = supplierRepository;
             InitializeComponent();
+            _supplierRepository = supplierRepository;
+            _validationRules = validationRules;
+
             CargarDtos();
         }
 
@@ -40,80 +46,126 @@ namespace DatabaseFirst.Forms.UI
             dataGridView1.Columns["PostalCode"].Visible = false;
         }
 
+        private void CargarViewmodel()
+        {
+            _supplierViewModel.ContactTitle = txtCTitle.Text;
+            _supplierViewModel.City = txtCity.Text;
+            _supplierViewModel.CompanyName = txtCName.Text;
+            _supplierViewModel.ContactName = txtContact.Text;
+            _supplierViewModel.Country = txtCountry.Text;
+            _supplierViewModel.Address = txtAddres.Text;
+            _supplierViewModel.Fax = txtAddres.Text;
+            _supplierViewModel.Phone = txtPhone.Text;
+            _supplierViewModel.PostalCode = txtPostalCode.Text;
+            _supplierViewModel.HomePage = txtHomePage.Text;
+            _supplierViewModel.Region = txtRegion.Text;
+        }
+
+        private void CargarTxt()
+        {
+            txtAddres.Text = _supplierViewModel.Address ?? "";
+            txtCity.Text = _supplierViewModel.City ?? "";
+            txtCName.Text = _supplierViewModel.CompanyName ?? "";
+            txtContact.Text = _supplierViewModel.ContactName ?? "";
+            txtCountry.Text = _supplierViewModel.Country ?? "";
+            txtCTitle.Text = _supplierViewModel.ContactTitle ?? "";
+            txtFax.Text = _supplierViewModel.Fax ?? "";
+            txtHomePage.Text = _supplierViewModel.HomePage ?? "";
+            txtPhone.Text = _supplierViewModel.Phone ?? "";
+            txtPostalCode.Text = _supplierViewModel.PostalCode ?? "";
+            txtRegion.Text = _supplierViewModel.Region ?? "";
+        }
+
         private void frmSuppliers_Load(object sender, EventArgs e)
         {
-            txtCName.DataBindings.Add("Text", bindingSource1, "CompanyName");
-            txtAddres.DataBindings.Add("Text", bindingSource1, "Address");
-            txtCity.DataBindings.Add("Text", bindingSource1, "City");
-            txtContact.DataBindings.Add("Text", bindingSource1, "ContactName");
-            txtCountry.DataBindings.Add("Text", bindingSource1, "Country");
-            txtCTitle.DataBindings.Add("Text", bindingSource1, "ContactTitle");
-            txtFax.DataBindings.Add("Text", bindingSource1, "Fax");
-            txtHomePage.DataBindings.Add("Text", bindingSource1, "HomePage");
-            txtPhone.DataBindings.Add("Text", bindingSource1, "Phone");
-            txtPostalCode.DataBindings.Add("Text", bindingSource1, "PostalCode");
-            txtRegion.DataBindings.Add("Text", bindingSource1, "Region");
         }
 
         private void OkBtn_Click(object sender, EventArgs e)
         {
+            CargarViewmodel();
+
+            if (_supplierViewModel.SupplierId == 0)
+            {
+                var result = MessageBox.Show("Esta seguro de querer agregar este suplidor", "Agregar", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                if (result == DialogResult.OK)
+                {
+                    Supplier supplier = new Supplier();
+                    supplier.SupplierId = _supplierViewModel.SupplierId;
+                    supplier.Address = _supplierViewModel.Address;
+                    supplier.City = _supplierViewModel.City;
+                    supplier.Region = _supplierViewModel.Region;
+                    supplier.CompanyName = _supplierViewModel.CompanyName;
+                    supplier.Country = _supplierViewModel.Country;
+                    supplier.Phone = _supplierViewModel.Phone;
+                    supplier.Fax = _supplierViewModel.Fax;
+                    supplier.ContactName = _supplierViewModel.ContactName;
+                    supplier.ContactTitle = _supplierViewModel.ContactTitle;
+                    supplier.HomePage = _supplierViewModel.HomePage;
+                    supplier.PostalCode = _supplierViewModel.PostalCode;
+
+                    _supplierRepository.Add(supplier);
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else if (_supplierViewModel.SupplierId != 0)
+            {
+                var result = MessageBox.Show("Esta seguro de querer Actualizar este suplidor", "Agregar", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                if (result == DialogResult.OK)
+                {
+                    Supplier supplier = new Supplier();
+                    supplier.SupplierId = _supplierViewModel.SupplierId;
+                    supplier.Address = _supplierViewModel.Address;
+                    supplier.City = _supplierViewModel.City;
+                    supplier.Region = _supplierViewModel.Region;
+                    supplier.CompanyName = _supplierViewModel.CompanyName;
+                    supplier.Country = _supplierViewModel.Country;
+                    supplier.Phone = _supplierViewModel.Phone;
+                    supplier.Fax = _supplierViewModel.Fax;
+                    supplier.ContactName = _supplierViewModel.ContactName;
+                    supplier.ContactTitle = _supplierViewModel.ContactTitle;
+                    supplier.HomePage = _supplierViewModel.HomePage;
+                    supplier.PostalCode = _supplierViewModel.PostalCode;
+
+                    _supplierRepository.Update(supplier);
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
             if (bindingSource1.Current is SuppliersViewModel currentSupplier)
             {
-                if (currentSupplier.SupplierId == 0)
+                _supplierViewModel = new SuppliersViewModel
                 {
-                    var result = MessageBox.Show("Esta seguro de querer agregar este suplidor", "Agregar", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                    if (result == DialogResult.OK)
-                    {
-                        Supplier supplier = new Supplier();
-                        supplier.SupplierId = currentSupplier.SupplierId;
-                        supplier.Address = currentSupplier.Address;
-                        supplier.City = currentSupplier.City;
-                        supplier.Region = currentSupplier.Region;
-                        supplier.CompanyName = currentSupplier.CompanyName;
-                        supplier.Country = currentSupplier.Country;
-                        supplier.Phone = currentSupplier.Phone;
-                        supplier.Fax = currentSupplier.Fax;
-                        supplier.ContactName = currentSupplier.ContactName;
-                        supplier.ContactTitle = currentSupplier.ContactTitle;
-                        supplier.HomePage = currentSupplier.HomePage;
-                        supplier.PostalCode = currentSupplier.PostalCode;
-
-                        _supplierRepository.Add(supplier);
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                else if (currentSupplier.SupplierId != 0)
-                {
-                    var result = MessageBox.Show("Esta seguro de querer Actualizar este suplidor", "Agregar", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                    if (result == DialogResult.OK)
-                    {
-                        Supplier supplier = new Supplier();
-                        supplier.SupplierId = currentSupplier.SupplierId;
-                        supplier.Address = currentSupplier.Address;
-                        supplier.City = currentSupplier.City;
-                        supplier.Region = currentSupplier.Region;
-                        supplier.CompanyName = currentSupplier.CompanyName;
-                        supplier.Country = currentSupplier.Country;
-                        supplier.Phone = currentSupplier.Phone;
-                        supplier.Fax = currentSupplier.Fax;
-                        supplier.ContactName = currentSupplier.ContactName;
-                        supplier.ContactTitle = currentSupplier.ContactTitle;
-                        supplier.HomePage = currentSupplier.HomePage;
-                        supplier.PostalCode = currentSupplier.PostalCode;
-
-                        _supplierRepository.Update(supplier);
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-
+                    SupplierId = currentSupplier.SupplierId,
+                    Address = currentSupplier.Address,
+                    City = currentSupplier.City,
+                    Region = currentSupplier.Region,
+                    CompanyName = currentSupplier.CompanyName,
+                    Country = currentSupplier.Country,
+                    Phone = currentSupplier.Phone,
+                    Fax = currentSupplier.Fax,
+                    ContactName = currentSupplier.ContactName,
+                    ContactTitle = currentSupplier.ContactTitle,
+                    HomePage = currentSupplier.HomePage,
+                    PostalCode = currentSupplier.PostalCode
+                };
+                CargarTxt();
             }
+        }
 
+        private void CancelBtn_Click(object sender, EventArgs e)
+        {
+            _supplierViewModel = new SuppliersViewModel();
+
+            CargarTxt();
         }
     }
 

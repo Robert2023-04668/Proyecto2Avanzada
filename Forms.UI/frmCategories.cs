@@ -9,14 +9,15 @@ namespace DatabaseFirst.Forms.UI
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly CategoryValidation _validationRules;
-        public frmCategories(ICategoryRepository categoryRepository, CategoryValidation validationRules )
+        private CategoryViewModel _categoryViewModel = new CategoryViewModel();
+
+        public frmCategories(ICategoryRepository categoryRepository, CategoryValidation validationRules)
         {
             InitializeComponent();
             _categoryRepository = categoryRepository;
             _validationRules = validationRules;
             CargarDatos();
         }
-
 
         public void CargarDatos()
         {
@@ -26,7 +27,6 @@ namespace DatabaseFirst.Forms.UI
                 CategoryName = p.CategoryName,
                 Description = p.Description,
                 Picture = p.Picture,
-
             }).ToList();
 
             bindingSource1.DataSource = categories;
@@ -34,68 +34,89 @@ namespace DatabaseFirst.Forms.UI
             dgvCategory.Columns["CategoryId"].Visible = false;
         }
 
+        private void LimpiarTextbox()
+        {
+            txtDescription.Text = _categoryViewModel.Description ?? "";
+            txtName.Text = _categoryViewModel.CategoryName ?? "";
+        }
+
+        private void CargarViewModel()
+        {
+            _categoryViewModel.Description = txtDescription.Text;
+            _categoryViewModel.CategoryName = txtName.Text;
+        }
+
         private void frmCategories_Load(object sender, EventArgs e)
         {
-            txtName.DataBindings.Add("Text", bindingSource1, "CategoryName");
-            txtDescription.DataBindings.Add("Text", bindingSource1, "Description");
         }
 
         private void OkBtn_Click(object sender, EventArgs e)
         {
-            var categoryVM = new CategoryViewModel
+            CargarViewModel();
+
+            var results = _validationRules.Validate(_categoryViewModel);
+            if (!results.IsValid)
             {
-                CategoryName = txtName.Text,
-                Description = txtDescription.Text
-            };
-            var results = _validationRules.Validate(categoryVM);
-            if(!results.IsValid)
-            { 
-                foreach(var failure in results.Errors)
+                foreach (var failure in results.Errors)
                 {
-                    MessageBox.Show(failure.ErrorMessage,"Validation",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    MessageBox.Show(failure.ErrorMessage, "Validation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 return;
             }
 
-            else if  (bindingSource1.Current is CategoryViewModel currentCategory)
+            if (_categoryViewModel.CategoryId == 0)
             {
-                if (currentCategory.CategoryId == 0)
+                var result = MessageBox.Show("Esta seguro de agregar esta nueva categoria?", "Agregar ", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                if (result == DialogResult.OK)
                 {
-                    var result = MessageBox.Show("Esta seguro de agregar esta nueva categoria?", "Agregar ", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                    if (result == DialogResult.OK)
+                    var newCategory = new Category
                     {
-                        Category category = new Category();
-                        category.CategoryId = currentCategory.CategoryId;
-                        category.CategoryName = currentCategory.CategoryName;
-                        category.Description = currentCategory.Description;
-                        category.Picture = currentCategory.Picture;
-
-                        _categoryRepository.Add(category);
-                    }
-                    else
-                    {
-                        return;
-                    }
+                        CategoryId = _categoryViewModel.CategoryId,
+                        CategoryName = _categoryViewModel.CategoryName,
+                        Description = _categoryViewModel.Description,
+                        Picture = _categoryViewModel.Picture,
+                    };
+                    _categoryRepository.Add(newCategory);
                 }
-                else
+            }
+            else
+            {
+                var result = MessageBox.Show("Esta seguro de Actualizar esta nueva categoria?", "Agregar ", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+
+                if (result == DialogResult.OK)
                 {
-                    var result = MessageBox.Show("Esta seguro de Actualizar esta nueva categoria?", "Agregar ", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-
-                    if (result == DialogResult.OK)
+                    var newCategory = new Category
                     {
-                        Category category = new Category();
-                        category.CategoryId = currentCategory.CategoryId;
-                        category.CategoryName = currentCategory.CategoryName;
-                        category.Description = currentCategory.Description;
-                        category.Picture = currentCategory.Picture;
-
-                        _categoryRepository.Update(category);
-                    }
-                    else
-                    {
-                        return;
-                    }
+                        CategoryId = _categoryViewModel.CategoryId,
+                        CategoryName = _categoryViewModel.CategoryName,
+                        Description = _categoryViewModel.Description,
+                        Picture = _categoryViewModel.Picture,
+                    };
+                    _categoryRepository.Add(newCategory);
                 }
+            }
+            CargarDatos();
+        }
+
+        private void CancelBtn_Click(object sender, EventArgs e)
+        {
+            _categoryViewModel = new CategoryViewModel();
+            LimpiarTextbox();
+        }
+
+        private void dgvCategory_SelectionChanged(object sender, EventArgs e)
+        {
+            if (bindingSource1.Current is CategoryViewModel currenteCategory)
+            {
+                _categoryViewModel = new CategoryViewModel
+                {
+                    CategoryId = currenteCategory.CategoryId,
+                    CategoryName = currenteCategory.CategoryName,
+                    Description = currenteCategory.Description,
+                    Picture = currenteCategory.Picture,
+                };
+
+                LimpiarTextbox();
             }
         }
     }
@@ -109,6 +130,5 @@ namespace DatabaseFirst.Forms.UI
         public string? Description { get; set; }
 
         public byte[]? Picture { get; set; }
-
     }
 }

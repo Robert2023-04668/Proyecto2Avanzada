@@ -32,6 +32,7 @@
             bindingSource1 = new BindingSource(components);
             dgvCategory = new DataGridView();
             txtName = new TextBox();
+            categoryViewModelBindingSource = new BindingSource(components);
             label1 = new Label();
             label2 = new Label();
             Deletebtn = new Button();
@@ -41,6 +42,7 @@
             txtDescription = new RichTextBox();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCategory).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)categoryViewModelBindingSource).BeginInit();
             SuspendLayout();
             // 
             // dgvCategory
@@ -56,14 +58,20 @@
             dgvCategory.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dgvCategory.Size = new Size(567, 561);
             dgvCategory.TabIndex = 0;
+            dgvCategory.SelectionChanged += dgvCategory_SelectionChanged;
             // 
             // txtName
             // 
+            txtName.DataBindings.Add(new Binding("Text", categoryViewModelBindingSource, "CategoryName", true));
             txtName.Font = new Font("Times New Roman", 12F);
             txtName.Location = new Point(116, 110);
             txtName.Name = "txtName";
             txtName.Size = new Size(181, 30);
             txtName.TabIndex = 1;
+            // 
+            // categoryViewModelBindingSource
+            // 
+            categoryViewModelBindingSource.DataSource = typeof(CategoryViewModel);
             // 
             // label1
             // 
@@ -108,6 +116,7 @@
             CancelBtn.TabIndex = 22;
             CancelBtn.Text = "CLEAN";
             CancelBtn.UseVisualStyleBackColor = false;
+            CancelBtn.Click += CancelBtn_Click;
             // 
             // OkBtn
             // 
@@ -134,6 +143,7 @@
             // 
             // txtDescription
             // 
+            txtDescription.DataBindings.Add(new Binding("Text", categoryViewModelBindingSource, "Description", true));
             txtDescription.Font = new Font("Times New Roman", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtDescription.Location = new Point(116, 158);
             txtDescription.Name = "txtDescription";
@@ -145,6 +155,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Control;
             ClientSize = new Size(881, 561);
             Controls.Add(txtDescription);
             Controls.Add(label3);
@@ -161,6 +172,7 @@
             Load += frmCategories_Load;
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvCategory).EndInit();
+            ((System.ComponentModel.ISupportInitialize)categoryViewModelBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -177,5 +189,6 @@
         private Button OkBtn;
         private Label label3;
         private RichTextBox txtDescription;
+        private BindingSource categoryViewModelBindingSource;
     }
 }

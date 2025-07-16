@@ -1,4 +1,5 @@
-﻿using DatabaseFirst.Models;
+﻿using DatabaseFirst.Forms.UI;
+using DatabaseFirst.Models;
 using DatabaseFirst.Repositories.Interfaces;
 using DatabaseFirst.Services;
 using FluentValidation.Results;
@@ -10,20 +11,24 @@ namespace DatabaseFirst
         private readonly IProductRepository _IProductRepository;
         private readonly ProductValidation _validationRules;
         private ProductViewModel _tempProductVM = new ProductViewModel();
+        private readonly ICategoryRepository _ICategoryRepository;
+        private readonly ISupplierRepository _supplierRepository;
 
-        public frmProducts(IProductRepository iProductRepository, ProductValidation validationRules)
+        public frmProducts(IProductRepository iProductRepository, ProductValidation validationRules, ICategoryRepository iCategoryRepository, ISupplierRepository supplierRepository)
         {
             _IProductRepository = iProductRepository;
             _validationRules = validationRules;
 
             InitializeComponent();
             CargarDatos();
+            _ICategoryRepository = iCategoryRepository;
+            CargarCategorias();
+            _supplierRepository = supplierRepository;
+            CargarSuppliers();
         }
 
         private void frmProducts_Load(object sender, EventArgs e)
         {
-            // NO DATA BINDINGS a bindingSource1 !!
-            // Solo se asignan los valores a mano
         }
 
         public void CargarDatos()
@@ -48,20 +53,16 @@ namespace DatabaseFirst
 
             bindingSource1.DataSource = products;
             dgvProducts.DataSource = bindingSource1;
-
             dgvProducts.Columns["ProductId"].Visible = false;
             dgvProducts.Columns["CategoryId"].Visible = false;
             dgvProducts.Columns["SupplierId"].Visible = false;
         }
 
-
-
-
         private void LimpiarTextbox()
         {
             txtProduct.Text = _tempProductVM.Product ?? "";
-            txtCategory.Text = _tempProductVM.Category ?? "";
-            txtSupplier.Text = _tempProductVM.Supplier ?? "";
+            comboBox1.Text = _tempProductVM.Category ?? "";
+            comboBox2.Text = _tempProductVM.Supplier ?? "";
             txtQPU.Text = _tempProductVM.QuantityPerUnit ?? "";
             txtUnitprice.Text = _tempProductVM.UnitPrice?.ToString() ?? "";
             txtUnitInStock.Text = _tempProductVM.UnitsInStock?.ToString() ?? "";
@@ -70,18 +71,44 @@ namespace DatabaseFirst
             checkBox1.Checked = _tempProductVM.Discontinued;
         }
 
-
         private void CargarViewmodel()
         {
             _tempProductVM.Product = txtProduct.Text;
             _tempProductVM.QuantityPerUnit = txtQPU.Text;
-            _tempProductVM.UnitPrice = decimal.TryParse(txtUnitprice.Text, out var up) ? up : null;
+            _tempProductVM.UnitPrice = decimal.Parse(txtUnitprice.Text);
             _tempProductVM.UnitsInStock = short.TryParse(txtUnitInStock.Text, out var us) ? us : null;
             _tempProductVM.UnitsOnOrder = short.TryParse(txtUnitOnOrder.Text, out var uo) ? uo : null;
             _tempProductVM.ReorderLevel = short.TryParse(txtReordderLevel.Text, out var rl) ? rl : null;
             _tempProductVM.Discontinued = checkBox1.Checked;
+            _tempProductVM.CategoryId = int.Parse(comboBox1.SelectedValue.ToString());
+            _tempProductVM.SupplierId = int.Parse(comboBox2.SelectedValue.ToString());
+        }
+        private void CargarCategorias()
+        {
+            var _category = _ICategoryRepository.GetCategories().Select(c=> new CategorysViewModel
+            {
+                CategoryId  = c.CategoryId,
+                CategoryName = c.CategoryName
+            }).ToList();
+
+            comboBox1.DataSource = _category;
+            comboBox1.DisplayMember = "CategoryName";
+            comboBox1.ValueMember = "CategoryId";
+            comboBox1.SelectedValue = "CategoryId";
         }
 
+        public void CargarSuppliers()
+        {
+            var _suppliers = _supplierRepository.GetSuppliers().Select(s=> new SupplierViewmodel
+            {
+                SupplierId = s.SupplierId,
+                CompanyName = s.CompanyName,
+            }).ToList();
+            comboBox2.DataSource = _suppliers;
+            comboBox2.DisplayMember = "CompanyName";
+            comboBox2.ValueMember = "SupplierId";
+            comboBox2.SelectedValue = "SupplierId";
+        }
         private void OkBtn_Click(object sender, EventArgs e)
         {
             CargarViewmodel();
@@ -98,7 +125,7 @@ namespace DatabaseFirst
 
             if (_tempProductVM.ProductId == 0)
             {
-                var confirm = MessageBox.Show("¿Seguro que desea CREAR este producto?", "Confirmar", MessageBoxButtons.OKCancel);
+                var confirm = MessageBox.Show("¿Seguro que desea crear este producto?", "Confirmar", MessageBoxButtons.OKCancel);
                 if (confirm == DialogResult.OK)
                 {
                     var newProduct = new Product
@@ -120,8 +147,8 @@ namespace DatabaseFirst
             }
             else
             {
-                var confirm = MessageBox.Show("¿Seguro que desea ACTUALIZAR este producto?", "Confirmar", MessageBoxButtons.OKCancel);
-                if (confirm == DialogResult.OK)
+                var result = MessageBox.Show("¿Seguro que desea actualizar este producto?", "Confirmar", MessageBoxButtons.OKCancel);
+                if (result == DialogResult.OK)
                 {
                     var updatedProduct = new Product
                     {
@@ -187,7 +214,6 @@ namespace DatabaseFirst
                 };
 
                 LimpiarTextbox();
-
             }
         }
     }
@@ -206,5 +232,18 @@ namespace DatabaseFirst
         public short? UnitsOnOrder { get; set; }
         public short? ReorderLevel { get; set; }
         public bool Discontinued { get; set; }
+    }
+    internal class CategorysViewModel
+    {
+        public int CategoryId { get; set; }
+
+        public string CategoryName { get; set; } = null!;
+
+    }
+
+    internal class SupplierViewmodel()
+    {
+        public int SupplierId { get; set; }
+        public string CompanyName { get; set; } = null!;
     }
 }

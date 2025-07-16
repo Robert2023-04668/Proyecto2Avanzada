@@ -71,6 +71,7 @@
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.Size = new Size(1120, 602);
             dataGridView1.TabIndex = 0;
+            dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
             // 
             // Deletebtn
             // 
@@ -95,6 +96,7 @@
             CancelBtn.TabIndex = 22;
             CancelBtn.Text = "CLEAN";
             CancelBtn.UseVisualStyleBackColor = false;
+            CancelBtn.Click += CancelBtn_Click;
             // 
             // OkBtn
             // 

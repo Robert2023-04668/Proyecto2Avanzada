@@ -7,6 +7,7 @@ namespace DatabaseFirst.Repositories
     public class SupplierRepository : ISupplierRepository
     {
         private NorthwindContext _context = new NorthwindContext();
+
         public SupplierRepository(NorthwindContext context)
         {
             _context = context;
@@ -18,6 +19,7 @@ namespace DatabaseFirst.Repositories
         {
             return _context.Suppliers.AsNoTracking().ToList();
         }
+
         public void Add(Supplier supplier)
         {
             _context.Suppliers.Add(supplier);
@@ -32,6 +34,7 @@ namespace DatabaseFirst.Repositories
                 _context.SaveChanges();
             }
         }
+
         public void Update(Supplier supplier)
         {
             var existing = _context.Suppliers.Find(supplier.SupplierId);

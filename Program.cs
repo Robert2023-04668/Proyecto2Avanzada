@@ -30,6 +30,8 @@ namespace DatabaseFirst
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IOrdersRepository, OrdersRepository>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
+            services.AddScoped<CustomerRepository>();
+            services.AddScoped<IShipper, ShipperRepository>();
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddTransient<frmSuppliers>();
             services.AddTransient<frmCategories>();
@@ -38,10 +40,8 @@ namespace DatabaseFirst
             var serviceProvider = services.BuildServiceProvider();
 
             ApplicationConfiguration.Initialize();
-            var main = serviceProvider.GetRequiredService<frmProducts>();
+            var main = serviceProvider.GetRequiredService<frmOrders>();
             Application.Run(main);
-
         }
     }
 }
-

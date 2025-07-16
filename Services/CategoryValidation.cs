@@ -10,6 +10,5 @@ namespace DatabaseFirst.Services
             RuleFor(a => a.CategoryName).NotEmpty().WithMessage("El Nombre es necesario");
             RuleFor(a => a.Description).NotEmpty().WithMessage("Otorgue una descripccion a la categoria");
         }
-
     }
 }

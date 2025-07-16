@@ -30,12 +30,10 @@
         {
             components = new System.ComponentModel.Container();
             dgvProducts = new DataGridView();
-            txtCategory = new TextBox();
             txtProduct = new TextBox();
             txtQPU = new TextBox();
             txtUnitInStock = new TextBox();
             txtUnitOnOrder = new TextBox();
-            txtSupplier = new TextBox();
             txtUnitprice = new TextBox();
             txtReordderLevel = new TextBox();
             checkBox1 = new CheckBox();
@@ -52,6 +50,8 @@
             Deletebtn = new Button();
             label9 = new Label();
             bindingSource1 = new BindingSource(components);
+            comboBox1 = new ComboBox();
+            comboBox2 = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvProducts).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             SuspendLayout();
@@ -68,15 +68,6 @@
             dgvProducts.Size = new Size(1120, 602);
             dgvProducts.TabIndex = 0;
             dgvProducts.SelectionChanged += dgvProducts_SelectionChanged;
-            // 
-            // txtCategory
-            // 
-            txtCategory.BorderStyle = BorderStyle.FixedSingle;
-            txtCategory.Font = new Font("Times New Roman", 10.2F);
-            txtCategory.Location = new Point(154, 121);
-            txtCategory.Name = "txtCategory";
-            txtCategory.Size = new Size(125, 27);
-            txtCategory.TabIndex = 1;
             // 
             // txtProduct
             // 
@@ -113,15 +104,6 @@
             txtUnitOnOrder.Name = "txtUnitOnOrder";
             txtUnitOnOrder.Size = new Size(125, 27);
             txtUnitOnOrder.TabIndex = 5;
-            // 
-            // txtSupplier
-            // 
-            txtSupplier.BorderStyle = BorderStyle.FixedSingle;
-            txtSupplier.Font = new Font("Times New Roman", 10.2F);
-            txtSupplier.Location = new Point(154, 163);
-            txtSupplier.Name = "txtSupplier";
-            txtSupplier.Size = new Size(125, 27);
-            txtSupplier.TabIndex = 6;
             // 
             // txtUnitprice
             // 
@@ -281,12 +263,32 @@
             label9.TabIndex = 21;
             label9.Text = "Product Form";
             // 
+            // comboBox1
+            // 
+            comboBox1.FlatStyle = FlatStyle.Flat;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(154, 119);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(128, 28);
+            comboBox1.TabIndex = 22;
+            // 
+            // comboBox2
+            // 
+            comboBox2.FlatStyle = FlatStyle.Popup;
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Location = new Point(154, 160);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(128, 28);
+            comboBox2.TabIndex = 23;
+            // 
             // frmProducts
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlLight;
             ClientSize = new Size(1422, 602);
+            Controls.Add(comboBox2);
+            Controls.Add(comboBox1);
             Controls.Add(label9);
             Controls.Add(Deletebtn);
             Controls.Add(CancelBtn);
@@ -302,12 +304,10 @@
             Controls.Add(checkBox1);
             Controls.Add(txtReordderLevel);
             Controls.Add(txtUnitprice);
-            Controls.Add(txtSupplier);
             Controls.Add(txtUnitOnOrder);
             Controls.Add(txtUnitInStock);
             Controls.Add(txtQPU);
             Controls.Add(txtProduct);
-            Controls.Add(txtCategory);
             Controls.Add(dgvProducts);
             Name = "frmProducts";
             StartPosition = FormStartPosition.CenterScreen;
@@ -322,12 +322,10 @@
         #endregion
 
         private DataGridView dgvProducts;
-        private TextBox txtCategory;
         private TextBox txtProduct;
         private TextBox txtQPU;
         private TextBox txtUnitInStock;
         private TextBox txtUnitOnOrder;
-        private TextBox txtSupplier;
         private TextBox txtUnitprice;
         private TextBox txtReordderLevel;
         private CheckBox checkBox1;
@@ -344,5 +342,7 @@
         private Button Deletebtn;
         private Label label9;
         private BindingSource bindingSource1;
+        private ComboBox comboBox1;
+        private ComboBox comboBox2;
     }
 }
