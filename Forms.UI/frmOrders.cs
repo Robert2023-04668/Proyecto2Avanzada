@@ -1,5 +1,7 @@
-﻿using DatabaseFirst.Repositories;
+﻿using DatabaseFirst.Models;
+using DatabaseFirst.Repositories;
 using DatabaseFirst.Repositories.Interfaces;
+using DatabaseFirst.Services;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using System.Data;
 
@@ -11,26 +13,30 @@ namespace DatabaseFirst.Forms.UI
         private readonly IProductRepository _productRepository;
         private readonly CustomerRepository _customerRepository;
         private readonly IShipper _shipperRepository;
+        private readonly IEmployee _EmployeeRepository;
         private CustomerViewModel _customerViewModel;
-
-        // Lista de productos para ComboBox y UnitPrice
+        private OrdersViewModel _ordersViewModel;
+        private DetailsViewModel _detailViewModel;
+        private OrderValidation _ordersvalidation;
         private List<ProductViewModel> _products = new();
 
-        public frmOrders(IOrdersRepository ordersRepository, IProductRepository productRepository, CustomerRepository customerRepository, IShipper shipperRepository)
+        public frmOrders(IOrdersRepository ordersRepository, IProductRepository productRepository, CustomerRepository customerRepository, IShipper shipperRepository, IEmployee EmployeeRepository, OrderValidation ordersvalidation)
         {
             InitializeComponent();
             _ordersRepository = ordersRepository;
-
+            _EmployeeRepository = EmployeeRepository;
             _productRepository = productRepository;
             CargarOrdenes();
-            CargarProductos(); 
+            CargarProductos();
             CargarDetails();
             ConfigurarEventos();
             _customerRepository = customerRepository;
             CargarCustomer();
             _shipperRepository = shipperRepository;
             CargarShippers();
-           
+            _ordersvalidation = ordersvalidation;
+            CargarEmployees();
+
         }
 
         public void CargarOrdenes()
@@ -57,7 +63,6 @@ namespace DatabaseFirst.Forms.UI
 
             bindingSource1.DataSource = Orders;
             dataGridView1.DataSource = bindingSource1;
-            dataGridView1.Columns["OrderId"].Visible = false;
             dataGridView1.Columns["EmployeeId"].Visible = false;
             dataGridView1.Columns["ShipPostalCode"].Visible = false;
             dataGridView1.Columns["ShipRegion"].Visible = false;
@@ -68,6 +73,17 @@ namespace DatabaseFirst.Forms.UI
             dataGridView1.Columns["CustomerId"].Visible = false;
         }
 
+        public void CargarEmployees()
+        {
+            var _Employee = _EmployeeRepository.GetEmployees().Select(e => new EmployeeViewModel
+            {
+                EmployeeId = e.EmployeeId,
+                FullName = e.FirstName + " " + e.LastName,
+            }).ToList();
+            cmbEmployee.DataSource = _Employee;
+            cmbEmployee.DisplayMember = "FullName";
+            cmbEmployee.ValueMember = "EmployeeId";
+        }
         public void CargarProductos()
         {
             _products = _productRepository.GetProducts()
@@ -107,7 +123,7 @@ namespace DatabaseFirst.Forms.UI
                 PostalCode = c.PostalCode,
                 Region = c.Region,
                 Address = c.Address,
-               
+
             }).ToList();
             bindingCustomer.DataSource = _customer;
             cmbCustomer.DataSource = bindingCustomer;
@@ -134,9 +150,32 @@ namespace DatabaseFirst.Forms.UI
             comboColumn.ValueMember = "ProductId";
             comboColumn.DataPropertyName = "ProductId";
 
-            bindingSource2.DataSource = Details;
+            bindingOrderDetails.DataSource = Details;
+            dataGridView3.DataSource = bindingOrderDetails;
         }
 
+        private void CargarOrderViewModel()
+        {
+
+            if (_ordersViewModel == null) _ordersViewModel = new OrdersViewModel();
+            if (_detailViewModel == null) _detailViewModel = new DetailsViewModel();
+
+            _ordersViewModel.ShipVia = (int?)cmbShipVia.SelectedValue;
+            _ordersViewModel.ShipName = txtShipName.Text;
+            _ordersViewModel.CustomerId = cmbCustomer.SelectedValue.ToString();
+            _ordersViewModel.EmployeeId = (int?)cmbEmployee.SelectedValue;
+            _ordersViewModel.ShipAddress = txtAdress.Text;
+            _ordersViewModel.Freight = decimal.Parse(txtFreight.Text);
+            _ordersViewModel.ShipCity = txtCity.Text;
+            _ordersViewModel.ShipRegion = txtRegion.Text;
+            _ordersViewModel.OrderDate = dateTimePicker3.Value;
+            _ordersViewModel.RequiredDate = dateTimePicker1.Value;
+            _ordersViewModel.ShippedDate = dateTimePicker2.Value;
+            _ordersViewModel.ShipPostalCode = txtPostalCode.Text;
+            _ordersViewModel.ShipCountry = txtShipCountry.Text;
+            _detailViewModel.OrderId = _ordersViewModel.OrderId;
+
+        }
         private void ConfigurarEventos()
         {
             dataGridView2.EditingControlShowing += DataGridView2_EditingControlShowing;
@@ -156,7 +195,7 @@ namespace DatabaseFirst.Forms.UI
         {
             if (sender is ComboBox cb && cb.SelectedValue is int productId)
             {
-                var selectedProduct = _products.Find(p => p.ProductId == productId);
+               var selectedProduct = _products.Find(p => p.ProductId == productId);
                 if (selectedProduct == null) return;
 
                 var row = dataGridView2.CurrentRow;
@@ -201,12 +240,6 @@ namespace DatabaseFirst.Forms.UI
             }
         }
 
-        private void cmbCustomer_DisplayMemberChanged(object sender, EventArgs e)
-        {
-
-            
-        }
-
         private void cmbCustomer_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (bindingCustomer.Current is CustomerViewModel currentCustomer)
@@ -226,6 +259,80 @@ namespace DatabaseFirst.Forms.UI
             }
         }
 
+        private void GuardarFacturaConDetalles()
+        {
+            try
+            {
+                // 1. Convertir el ViewModel en entidad
+                var order = new Order
+                {
+                    CustomerId = _ordersViewModel.CustomerId,
+                    EmployeeId = _ordersViewModel.EmployeeId,
+                    OrderDate = _ordersViewModel.OrderDate,
+                    RequiredDate = _ordersViewModel.RequiredDate,
+                    ShippedDate = _ordersViewModel.ShippedDate,
+                    ShipVia = _ordersViewModel.ShipVia,
+                    Freight = _ordersViewModel.Freight,
+                    ShipName = _ordersViewModel.ShipName,
+                    ShipAddress = _ordersViewModel.ShipAddress,
+                    ShipCity = _ordersViewModel.ShipCity,
+                    ShipRegion = _ordersViewModel.ShipRegion,
+                    ShipPostalCode = _ordersViewModel.ShipPostalCode,
+                    ShipCountry = _ordersViewModel.ShipCountry
+                };
+
+                var results = _ordersvalidation.Validate(_ordersViewModel);
+                if (!results.IsValid)
+                {
+                    foreach (var failure in results.Errors)
+                    {
+                        MessageBox.Show(failure.ErrorMessage, "Validation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    return;
+                }
+                // 2. Agregar la orden al contexto
+                _ordersRepository.Add(order);
+                _ordersRepository.Save(); // Necesario para obtener el OrderId
+
+                // 3. Recorrer DataGridView2 y construir los detalles
+                foreach (DataGridViewRow row in dataGridView2.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    if (row.Cells["Product"].Value == null ||
+                        row.Cells["Quantity"].Value == null ||
+                        row.Cells["UnitPrice"].Value == null)
+                    {
+                        MessageBox.Show($"Fila {row.Index + 1} incompleta.");
+                        return;
+                    }
+
+                    var detail = new OrderDetail
+                    {
+                        OrderId = order.OrderId, // Aquí se vincula con la orden
+                        ProductId = Convert.ToInt32(row.Cells["Product"].Value),
+                        Quantity = Convert.ToInt16(row.Cells["Quantity"].Value),
+                        UnitPrice = Convert.ToDecimal(row.Cells["UnitPrice"].Value),
+                        Discount = 0 // Si no estás usando descuentos
+                    };
+
+                    _ordersRepository.AddDetail(detail);
+                }
+
+                // 4. Guardar todos los detalles
+                MessageBox.Show(order.OrderId.ToString());
+                _ordersRepository.Save();
+                
+
+                MessageBox.Show("Factura y detalles guardados correctamente.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar: " + ex.Message);
+            }
+        }
+
+
         private void Llenartxt()
         {
             txtCity.Text = _customerViewModel.City ?? "";
@@ -234,9 +341,12 @@ namespace DatabaseFirst.Forms.UI
             txtRegion.Text = _customerViewModel.Region ?? "";
             txtShipCountry.Text = _customerViewModel.Country ?? "";
         }
-        private void algo()
+
+        private void button1_Click(object sender, EventArgs e)
         {
-            _customerViewModel.City = txtCity.Text; 
+            
+            CargarOrderViewModel();
+            GuardarFacturaConDetalles();
         }
     }
 
@@ -259,7 +369,6 @@ namespace DatabaseFirst.Forms.UI
         public string? ShipPostalCode { get; set; }
         public string? ShipCountry { get; set; }
     }
-
     public class DetailsViewModel
     {
         public int OrderId { get; set; }
@@ -268,7 +377,6 @@ namespace DatabaseFirst.Forms.UI
         public short Quantity { get; set; }
         public float Discount { get; set; }
     }
-
     public class ProductViewModel
     {
         public int ProductId { get; set; }
@@ -279,7 +387,6 @@ namespace DatabaseFirst.Forms.UI
         public int? SupplierId { get; set; }
         public string? Supplier { get; set; }
     }
-
     public class CustomerViewModel()
     {
         public string CustomerId { get; set; } = null!;
@@ -292,7 +399,6 @@ namespace DatabaseFirst.Forms.UI
 
         public string? Country { get; set; }
     }
-
     public class ShipperViewModel()
     {
         public int ShipperId { get; set; }
@@ -300,5 +406,10 @@ namespace DatabaseFirst.Forms.UI
         public string CompanyName { get; set; } = null!;
 
         public string? Phone { get; set; }
+    }
+    public class EmployeeViewModel()
+    {
+        public int EmployeeId { get; set; }
+        public string FullName { get; set; } = null!;
     }
 }

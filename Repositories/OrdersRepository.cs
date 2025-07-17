@@ -6,7 +6,7 @@ namespace DatabaseFirst.Repositories
 {
     public class OrdersRepository : IOrdersRepository
     {
-        public NorthwindContext _context = new NorthwindContext();
+        private readonly NorthwindContext _context;
 
         public OrdersRepository(NorthwindContext context)
         {
@@ -17,11 +17,21 @@ namespace DatabaseFirst.Repositories
 
         public IEnumerable<Order> GetOrders()
         {
-            return
-                _context.Orders.Include(_o => _o.Employee).Include(o => o.Customer).Include(o => o.ShipViaNavigation).AsNoTracking().ToList();
+            return _context.Orders
+                .Include(o => o.Employee)
+                .Include(o => o.Customer)
+                .Include(o => o.ShipViaNavigation)
+                .AsNoTracking()
+                .ToList();
         }
 
-        public IEnumerable<OrderDetail> GetDetails() => _context.OrderDetails.Include(_od => _od.Product).AsNoTracking().ToList();
+        public IEnumerable<OrderDetail> GetDetails()
+        {
+            return _context.OrderDetails
+                .Include(od => od.Product)
+                .AsNoTracking()
+                .ToList();
+        }
 
         public void Add(Order order)
         {
@@ -35,11 +45,7 @@ namespace DatabaseFirst.Repositories
 
         public void Update(Order order)
         {
-            var existing = _context.Orders.Find(order.OrderId);
-
-            if (existing != null)
-            {
-            }
+            _context.Orders.Update(order);
         }
 
         public void UpdateDetail(OrderDetail detail)
@@ -50,16 +56,25 @@ namespace DatabaseFirst.Repositories
         public void Delete(int orderId)
         {
             var existing = _context.Orders.Find(orderId);
-
             if (existing != null)
             {
                 _context.Orders.Remove(existing);
-                _context.SaveChanges();
             }
         }
 
-        public void DeleteDetail(int orderId)
+        public void DeleteDetail(int orderDetailId)
         {
+            var detail = _context.OrderDetails.Find(orderDetailId);
+            if (detail != null)
+            {
+                _context.OrderDetails.Remove(detail);
+            }
+        }
+
+        public void Save()
+        {
+            _context.SaveChanges();
         }
     }
+
 }

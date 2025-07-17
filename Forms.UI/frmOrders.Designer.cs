@@ -29,6 +29,11 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             dataGridView1 = new DataGridView();
             bindingSource1 = new BindingSource(components);
             dataGridView2 = new DataGridView();
@@ -39,7 +44,7 @@
             ProductCategoryName = new DataGridViewTextBoxColumn();
             ProductSupplierCompanyName = new DataGridViewTextBoxColumn();
             ExtendedPrice = new DataGridViewTextBoxColumn();
-            bindingSource2 = new BindingSource(components);
+            bindingOrderDetails = new BindingSource(components);
             txtCity = new TextBox();
             txtAdress = new TextBox();
             cmbCustomer = new ComboBox();
@@ -48,7 +53,6 @@
             dateTimePicker1 = new DateTimePicker();
             txtShipName = new TextBox();
             txtShipCountry = new TextBox();
-            textBox5 = new TextBox();
             txtRegion = new TextBox();
             txtPostalCode = new TextBox();
             cmbShipVia = new ComboBox();
@@ -68,24 +72,30 @@
             label16 = new Label();
             dateTimePicker3 = new DateTimePicker();
             label1 = new Label();
-            label17 = new Label();
             label18 = new Label();
             bindingCustomer = new BindingSource(components);
+            button1 = new Button();
+            dateTimePicker2 = new DateTimePicker();
+            txtFreight = new TextBox();
+            dataGridView3 = new DataGridView();
+            button2 = new Button();
+            button3 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)bindingSource2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bindingOrderDetails).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingCustomer).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
             // 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(336, 82);
+            dataGridView1.Location = new Point(995, 45);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(198, 107);
+            dataGridView1.Size = new Size(830, 329);
             dataGridView1.TabIndex = 0;
             // 
             // dataGridView2
@@ -93,6 +103,14 @@
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView2.Columns.AddRange(new DataGridViewColumn[] { Product, UnitPrice, Quantity, Discount, ProductCategoryName, ProductSupplierCompanyName, ExtendedPrice });
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = SystemColors.Window;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.False;
+            dataGridView2.DefaultCellStyle = dataGridViewCellStyle5;
             dataGridView2.Location = new Point(12, 304);
             dataGridView2.Name = "dataGridView2";
             dataGridView2.RowHeadersWidth = 51;
@@ -103,55 +121,82 @@
             // Product
             // 
             Product.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            Product.DefaultCellStyle = dataGridViewCellStyle1;
+            Product.FillWeight = 54.2780762F;
+            Product.FlatStyle = FlatStyle.Flat;
             Product.HeaderText = "Product";
             Product.MinimumWidth = 6;
             Product.Name = "Product";
             // 
             // UnitPrice
             // 
-            UnitPrice.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            UnitPrice.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle2.Format = "C2";
+            dataGridViewCellStyle2.NullValue = null;
+            UnitPrice.DefaultCellStyle = dataGridViewCellStyle2;
+            UnitPrice.FillWeight = 374.331543F;
             UnitPrice.HeaderText = "UnitPrice";
             UnitPrice.MinimumWidth = 6;
             UnitPrice.Name = "UnitPrice";
+            UnitPrice.ReadOnly = true;
+            UnitPrice.Width = 90;
             // 
             // Quantity
             // 
-            Quantity.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Quantity.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            Quantity.FillWeight = 54.2780762F;
             Quantity.HeaderText = "Quantity";
             Quantity.MinimumWidth = 6;
             Quantity.Name = "Quantity";
+            Quantity.Width = 80;
             // 
             // Discount
             // 
-            Discount.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Discount.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle3.NullValue = null;
+            Discount.DefaultCellStyle = dataGridViewCellStyle3;
+            Discount.FillWeight = 54.2780762F;
             Discount.HeaderText = "Discount";
             Discount.MinimumWidth = 6;
             Discount.Name = "Discount";
+            Discount.Width = 80;
             // 
             // ProductCategoryName
             // 
+            ProductCategoryName.FillWeight = 54.2780762F;
             ProductCategoryName.HeaderText = "Product Category Name";
             ProductCategoryName.MinimumWidth = 6;
             ProductCategoryName.Name = "ProductCategoryName";
+            ProductCategoryName.ReadOnly = true;
             // 
             // ProductSupplierCompanyName
             // 
+            ProductSupplierCompanyName.FillWeight = 54.2780762F;
             ProductSupplierCompanyName.HeaderText = "Product Supplier Company Name";
             ProductSupplierCompanyName.MinimumWidth = 6;
             ProductSupplierCompanyName.Name = "ProductSupplierCompanyName";
+            ProductSupplierCompanyName.ReadOnly = true;
             // 
             // ExtendedPrice
             // 
+            dataGridViewCellStyle4.Format = "C2";
+            dataGridViewCellStyle4.NullValue = null;
+            ExtendedPrice.DefaultCellStyle = dataGridViewCellStyle4;
+            ExtendedPrice.FillWeight = 54.2780762F;
             ExtendedPrice.HeaderText = "Extended Price";
             ExtendedPrice.MinimumWidth = 6;
             ExtendedPrice.Name = "ExtendedPrice";
+            ExtendedPrice.ReadOnly = true;
             // 
-            // bindingSource2
+            // bindingOrderDetails
             // 
-            bindingSource2.DataSource = typeof(DetailsViewModel);
+            bindingOrderDetails.DataSource = typeof(DetailsViewModel);
             // 
             // txtCity
             // 
+            txtCity.BorderStyle = BorderStyle.FixedSingle;
             txtCity.Location = new Point(694, 126);
             txtCity.Name = "txtCity";
             txtCity.Size = new Size(274, 27);
@@ -159,6 +204,7 @@
             // 
             // txtAdress
             // 
+            txtAdress.BorderStyle = BorderStyle.FixedSingle;
             txtAdress.Location = new Point(694, 83);
             txtAdress.Name = "txtAdress";
             txtAdress.Size = new Size(274, 27);
@@ -172,7 +218,6 @@
             cmbCustomer.Size = new Size(152, 28);
             cmbCustomer.TabIndex = 5;
             cmbCustomer.SelectedIndexChanged += cmbCustomer_SelectedIndexChanged;
-            cmbCustomer.DisplayMemberChanged += cmbCustomer_DisplayMemberChanged;
             // 
             // cmbEmployee
             // 
@@ -202,6 +247,7 @@
             // 
             // txtShipName
             // 
+            txtShipName.BorderStyle = BorderStyle.FixedSingle;
             txtShipName.Location = new Point(125, 590);
             txtShipName.Name = "txtShipName";
             txtShipName.Size = new Size(220, 27);
@@ -209,20 +255,15 @@
             // 
             // txtShipCountry
             // 
+            txtShipCountry.BorderStyle = BorderStyle.FixedSingle;
             txtShipCountry.Location = new Point(695, 255);
             txtShipCountry.Name = "txtShipCountry";
             txtShipCountry.Size = new Size(272, 27);
             txtShipCountry.TabIndex = 12;
             // 
-            // textBox5
-            // 
-            textBox5.Location = new Point(158, 235);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(152, 27);
-            textBox5.TabIndex = 13;
-            // 
             // txtRegion
             // 
+            txtRegion.BorderStyle = BorderStyle.FixedSingle;
             txtRegion.Location = new Point(694, 169);
             txtRegion.Name = "txtRegion";
             txtRegion.Size = new Size(274, 27);
@@ -230,6 +271,7 @@
             // 
             // txtPostalCode
             // 
+            txtPostalCode.BorderStyle = BorderStyle.FixedSingle;
             txtPostalCode.Location = new Point(695, 212);
             txtPostalCode.Name = "txtPostalCode";
             txtPostalCode.Size = new Size(272, 27);
@@ -401,16 +443,6 @@
             label1.TabIndex = 34;
             label1.Text = "Total";
             // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
-            label17.Location = new Point(889, 599);
-            label17.Name = "label17";
-            label17.Size = new Size(78, 23);
-            label17.TabIndex = 35;
-            label17.Text = "Freight:";
-            // 
             // label18
             // 
             label18.AutoSize = true;
@@ -421,14 +453,84 @@
             label18.TabIndex = 36;
             label18.Text = "Total:";
             // 
+            // button1
+            // 
+            button1.BackColor = Color.FromArgb(40, 167, 69);
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("Times New Roman", 10.2F, FontStyle.Bold);
+            button1.Location = new Point(662, 12);
+            button1.Name = "button1";
+            button1.Size = new Size(101, 29);
+            button1.TabIndex = 37;
+            button1.Text = "OK";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
+            // 
+            // dateTimePicker2
+            // 
+            dateTimePicker2.Format = DateTimePickerFormat.Short;
+            dateTimePicker2.Location = new Point(158, 239);
+            dateTimePicker2.Name = "dateTimePicker2";
+            dateTimePicker2.Size = new Size(152, 27);
+            dateTimePicker2.TabIndex = 38;
+            // 
+            // txtFreight
+            // 
+            txtFreight.BorderStyle = BorderStyle.FixedSingle;
+            txtFreight.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtFreight.Location = new Point(889, 594);
+            txtFreight.Name = "txtFreight";
+            txtFreight.Size = new Size(79, 31);
+            txtFreight.TabIndex = 39;
+            txtFreight.Text = "0";
+            // 
+            // dataGridView3
+            // 
+            dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView3.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView3.Location = new Point(995, 391);
+            dataGridView3.Name = "dataGridView3";
+            dataGridView3.RowHeadersWidth = 51;
+            dataGridView3.Size = new Size(830, 188);
+            dataGridView3.TabIndex = 40;
+            // 
+            // button2
+            // 
+            button2.BackColor = Color.FromArgb(220, 53, 69);
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Font = new Font("Times New Roman", 10.2F, FontStyle.Bold);
+            button2.Location = new Point(876, 12);
+            button2.Name = "button2";
+            button2.Size = new Size(101, 29);
+            button2.TabIndex = 41;
+            button2.Text = "DELETE";
+            button2.UseVisualStyleBackColor = false;
+            // 
+            // button3
+            // 
+            button3.BackColor = Color.FromArgb(33, 150, 243);
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.Font = new Font("Times New Roman", 10.2F, FontStyle.Bold);
+            button3.Location = new Point(769, 12);
+            button3.Name = "button3";
+            button3.Size = new Size(101, 29);
+            button3.TabIndex = 42;
+            button3.Text = "CANCEL";
+            button3.UseVisualStyleBackColor = false;
+            // 
             // frmOrders
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.Control;
-            ClientSize = new Size(979, 663);
+            BackColor = Color.White;
+            ClientSize = new Size(989, 670);
+            Controls.Add(button3);
+            Controls.Add(button2);
+            Controls.Add(dataGridView3);
+            Controls.Add(txtFreight);
+            Controls.Add(dateTimePicker2);
+            Controls.Add(button1);
             Controls.Add(label18);
-            Controls.Add(label17);
             Controls.Add(label1);
             Controls.Add(dateTimePicker3);
             Controls.Add(label16);
@@ -448,7 +550,6 @@
             Controls.Add(cmbShipVia);
             Controls.Add(txtPostalCode);
             Controls.Add(txtRegion);
-            Controls.Add(textBox5);
             Controls.Add(txtShipCountry);
             Controls.Add(txtShipName);
             Controls.Add(dateTimePicker1);
@@ -463,12 +564,13 @@
             Name = "frmOrders";
             SizeGripStyle = SizeGripStyle.Hide;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Order";
+            Text = "Order Form";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)bindingSource2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bindingOrderDetails).EndInit();
             ((System.ComponentModel.ISupportInitialize)bindingCustomer).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView3).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -478,7 +580,7 @@
         private DataGridView dataGridView1;
         private BindingSource bindingSource1;
         private DataGridView dataGridView2;
-        private BindingSource bindingSource2;
+        private BindingSource bindingOrderDetails;
         private TextBox txtCity;
         private TextBox txtAdress;
         private ComboBox cmbCustomer;
@@ -487,16 +589,8 @@
         private DateTimePicker dateTimePicker1;
         private TextBox txtShipName;
         private TextBox txtShipCountry;
-        private TextBox textBox5;
         private TextBox txtRegion;
         private TextBox txtPostalCode;
-        private DataGridViewComboBoxColumn Product;
-        private DataGridViewTextBoxColumn UnitPrice;
-        private DataGridViewTextBoxColumn Quantity;
-        private DataGridViewTextBoxColumn Discount;
-        private DataGridViewTextBoxColumn ProductCategoryName;
-        private DataGridViewTextBoxColumn ProductSupplierCompanyName;
-        private DataGridViewTextBoxColumn ExtendedPrice;
         private ComboBox cmbShipVia;
         private Label label3;
         private Label label4;
@@ -514,8 +608,20 @@
         private Label label16;
         private DateTimePicker dateTimePicker3;
         private Label label1;
-        private Label label17;
         private Label label18;
         private BindingSource bindingCustomer;
+        private DataGridViewComboBoxColumn Product;
+        private DataGridViewTextBoxColumn UnitPrice;
+        private DataGridViewTextBoxColumn Quantity;
+        private DataGridViewTextBoxColumn Discount;
+        private DataGridViewTextBoxColumn ProductCategoryName;
+        private DataGridViewTextBoxColumn ProductSupplierCompanyName;
+        private DataGridViewTextBoxColumn ExtendedPrice;
+        private Button button1;
+        private DateTimePicker dateTimePicker2;
+        private TextBox txtFreight;
+        private DataGridView dataGridView3;
+        private Button button2;
+        private Button button3;
     }
 }

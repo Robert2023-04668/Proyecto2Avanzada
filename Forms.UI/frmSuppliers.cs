@@ -59,6 +59,8 @@ namespace DatabaseFirst.Forms.UI
             _supplierViewModel.PostalCode = txtPostalCode.Text;
             _supplierViewModel.HomePage = txtHomePage.Text;
             _supplierViewModel.Region = txtRegion.Text;
+
+
         }
 
         private void CargarTxt()

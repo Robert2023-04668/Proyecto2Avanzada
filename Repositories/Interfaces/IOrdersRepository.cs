@@ -19,6 +19,7 @@ namespace DatabaseFirst.Repositories.Interfaces
         void AddDetail (OrderDetail detail);
         void UpdateDetail (OrderDetail detail);
         void DeleteDetail (int orderId);
+        void Save();
     }
 
     

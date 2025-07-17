@@ -32,6 +32,7 @@ namespace DatabaseFirst
             services.AddScoped<ISupplierRepository, SupplierRepository>();
             services.AddScoped<CustomerRepository>();
             services.AddScoped<IShipper, ShipperRepository>();
+            services.AddScoped<IEmployee, EmployeeRepository>();
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddTransient<frmSuppliers>();
             services.AddTransient<frmCategories>();
