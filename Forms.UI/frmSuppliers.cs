@@ -1,6 +1,7 @@
 ﻿using DatabaseFirst.Models;
 using DatabaseFirst.Repositories.Interfaces;
 using DatabaseFirst.Services;
+using NLog;
 
 namespace DatabaseFirst.Forms.UI
 {
@@ -9,14 +10,15 @@ namespace DatabaseFirst.Forms.UI
         private readonly ISupplierRepository _supplierRepository;
         private SuppliersViewModel _supplierViewModel;
         private readonly SupplierValidation _validationRules;
+        private static readonly Logger log = LogManager.GetCurrentClassLogger();
 
         public frmSuppliers(ISupplierRepository supplierRepository, SupplierValidation validationRules)
         {
             InitializeComponent();
             _supplierRepository = supplierRepository;
             _validationRules = validationRules;
-
             CargarDtos();
+            log.Info("Formulario frmSuppliers cargado exitosamente");
         }
 
         public void CargarDtos()

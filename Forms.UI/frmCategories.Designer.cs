@@ -62,6 +62,7 @@
             // 
             // txtName
             // 
+            txtName.BorderStyle = BorderStyle.FixedSingle;
             txtName.DataBindings.Add(new Binding("Text", categoryViewModelBindingSource, "CategoryName", true));
             txtName.Font = new Font("Times New Roman", 12F);
             txtName.Location = new Point(116, 110);
@@ -143,6 +144,7 @@
             // 
             // txtDescription
             // 
+            txtDescription.BorderStyle = BorderStyle.FixedSingle;
             txtDescription.DataBindings.Add(new Binding("Text", categoryViewModelBindingSource, "Description", true));
             txtDescription.Font = new Font("Times New Roman", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtDescription.Location = new Point(116, 158);
@@ -155,7 +157,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.Control;
+            BackColor = Color.White;
             ClientSize = new Size(881, 561);
             Controls.Add(txtDescription);
             Controls.Add(label3);

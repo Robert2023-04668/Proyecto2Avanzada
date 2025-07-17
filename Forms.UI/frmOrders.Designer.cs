@@ -80,12 +80,18 @@
             dataGridView3 = new DataGridView();
             button2 = new Button();
             button3 = new Button();
+            menuStrip1 = new MenuStrip();
+            suppliersToolStripMenuItem = new ToolStripMenuItem();
+            categoriesToolStripMenuItem = new ToolStripMenuItem();
+            productsToolStripMenuItem = new ToolStripMenuItem();
+            suppliersToolStripMenuItem1 = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingOrderDetails).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingCustomer).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // dataGridView1
@@ -518,6 +524,47 @@
             button3.Text = "CANCEL";
             button3.UseVisualStyleBackColor = false;
             // 
+            // menuStrip1
+            // 
+            menuStrip1.AutoSize = false;
+            menuStrip1.BackColor = Color.White;
+            menuStrip1.ImageScalingSize = new Size(20, 20);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { suppliersToolStripMenuItem, categoriesToolStripMenuItem, productsToolStripMenuItem, suppliersToolStripMenuItem1 });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.RenderMode = ToolStripRenderMode.Professional;
+            menuStrip1.Size = new Size(989, 41);
+            menuStrip1.TabIndex = 43;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // suppliersToolStripMenuItem
+            // 
+            suppliersToolStripMenuItem.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            suppliersToolStripMenuItem.Name = "suppliersToolStripMenuItem";
+            suppliersToolStripMenuItem.Size = new Size(71, 37);
+            suppliersToolStripMenuItem.Text = "Menu";
+            // 
+            // categoriesToolStripMenuItem
+            // 
+            categoriesToolStripMenuItem.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            categoriesToolStripMenuItem.Name = "categoriesToolStripMenuItem";
+            categoriesToolStripMenuItem.Size = new Size(110, 37);
+            categoriesToolStripMenuItem.Text = "Categories";
+            // 
+            // productsToolStripMenuItem
+            // 
+            productsToolStripMenuItem.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            productsToolStripMenuItem.Name = "productsToolStripMenuItem";
+            productsToolStripMenuItem.Size = new Size(96, 37);
+            productsToolStripMenuItem.Text = "Products";
+            // 
+            // suppliersToolStripMenuItem1
+            // 
+            suppliersToolStripMenuItem1.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            suppliersToolStripMenuItem1.Name = "suppliersToolStripMenuItem1";
+            suppliersToolStripMenuItem1.Size = new Size(99, 37);
+            suppliersToolStripMenuItem1.Text = "Suppliers";
+            // 
             // frmOrders
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -560,7 +607,9 @@
             Controls.Add(txtCity);
             Controls.Add(dataGridView2);
             Controls.Add(dataGridView1);
+            Controls.Add(menuStrip1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            MainMenuStrip = menuStrip1;
             Name = "frmOrders";
             SizeGripStyle = SizeGripStyle.Hide;
             StartPosition = FormStartPosition.CenterScreen;
@@ -571,6 +620,8 @@
             ((System.ComponentModel.ISupportInitialize)bindingOrderDetails).EndInit();
             ((System.ComponentModel.ISupportInitialize)bindingCustomer).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView3).EndInit();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -623,5 +674,10 @@
         private DataGridView dataGridView3;
         private Button button2;
         private Button button3;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem suppliersToolStripMenuItem;
+        private ToolStripMenuItem categoriesToolStripMenuItem;
+        private ToolStripMenuItem productsToolStripMenuItem;
+        private ToolStripMenuItem suppliersToolStripMenuItem1;
     }
 }

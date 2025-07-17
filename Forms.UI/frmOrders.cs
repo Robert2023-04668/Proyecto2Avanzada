@@ -2,7 +2,7 @@
 using DatabaseFirst.Repositories;
 using DatabaseFirst.Repositories.Interfaces;
 using DatabaseFirst.Services;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+using NLog;
 using System.Data;
 
 namespace DatabaseFirst.Forms.UI
@@ -18,6 +18,7 @@ namespace DatabaseFirst.Forms.UI
         private OrdersViewModel _ordersViewModel;
         private DetailsViewModel _detailViewModel;
         private OrderValidation _ordersvalidation;
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private List<ProductViewModel> _products = new();
 
         public frmOrders(IOrdersRepository ordersRepository, IProductRepository productRepository, CustomerRepository customerRepository, IShipper shipperRepository, IEmployee EmployeeRepository, OrderValidation ordersvalidation)
@@ -27,7 +28,7 @@ namespace DatabaseFirst.Forms.UI
             _EmployeeRepository = EmployeeRepository;
             _productRepository = productRepository;
             CargarOrdenes();
-            CargarProductos();
+            CargarProducts();
             CargarDetails();
             ConfigurarEventos();
             _customerRepository = customerRepository;
@@ -36,79 +37,109 @@ namespace DatabaseFirst.Forms.UI
             CargarShippers();
             _ordersvalidation = ordersvalidation;
             CargarEmployees();
-
+            logger.Info("Formulario frmOrders cargado.");
         }
 
         public void CargarOrdenes()
         {
-            var Orders = _ordersRepository.GetOrders().Select(p => new OrdersViewModel
+            try
             {
-                OrderId = p.OrderId,
-                OrderDate = p.OrderDate,
-                ShipPostalCode = p.ShipPostalCode,
-                ShipCountry = p.ShipCountry,
-                CustomerId = p.CustomerId,
-                Customer = p.Customer != null ? p.Customer.ContactName : "No Customer",
-                EmployeeId = p.EmployeeId,
-                Employee = p.Employee != null ? p.Employee.FirstName + " " + p.Employee.LastName : " No employee",
-                Freight = p.Freight,
-                RequiredDate = p.RequiredDate,
-                ShippedDate = p.ShippedDate,
-                ShipAddress = p.ShipAddress,
-                ShipCity = p.Customer.City,
-                ShipRegion = p.ShipRegion,
-                ShipName = p.ShipName,
-                ShipVia = p.ShipVia
-            }).ToList();
+                var Orders = _ordersRepository.GetOrders().Select(p => new OrdersViewModel
+                {
+                    OrderId = p.OrderId,
+                    OrderDate = p.OrderDate,
+                    ShipPostalCode = p.ShipPostalCode,
+                    ShipCountry = p.ShipCountry,
+                    CustomerId = p.CustomerId,
+                    Customer = p.Customer != null ? p.Customer.ContactName : "No Customer",
+                    EmployeeId = p.EmployeeId,
+                    Employee = p.Employee != null ? p.Employee.FirstName + " " + p.Employee.LastName : " No employee",
+                    Freight = p.Freight,
+                    RequiredDate = p.RequiredDate,
+                    ShippedDate = p.ShippedDate,
+                    ShipAddress = p.ShipAddress,
+                    ShipCity = p.Customer.City,
+                    ShipRegion = p.ShipRegion,
+                    ShipName = p.ShipName,
+                    ShipVia = p.ShipVia
+                }).ToList();
 
-            bindingSource1.DataSource = Orders;
-            dataGridView1.DataSource = bindingSource1;
-            dataGridView1.Columns["EmployeeId"].Visible = false;
-            dataGridView1.Columns["ShipPostalCode"].Visible = false;
-            dataGridView1.Columns["ShipRegion"].Visible = false;
-            dataGridView1.Columns["ShipName"].Visible = false;
-            dataGridView1.Columns["ShipAddress"].Visible = false;
-            dataGridView1.Columns["ShipCity"].Visible = false;
-            dataGridView1.Columns["ShipVia"].Visible = false;
-            dataGridView1.Columns["CustomerId"].Visible = false;
+                bindingSource1.DataSource = Orders;
+                dataGridView1.DataSource = bindingSource1;
+                dataGridView1.Columns["EmployeeId"].Visible = false;
+                dataGridView1.Columns["ShipPostalCode"].Visible = false;
+                dataGridView1.Columns["ShipRegion"].Visible = false;
+                dataGridView1.Columns["ShipName"].Visible = false;
+                dataGridView1.Columns["ShipAddress"].Visible = false;
+                dataGridView1.Columns["ShipCity"].Visible = false;
+                dataGridView1.Columns["ShipVia"].Visible = false;
+                dataGridView1.Columns["CustomerId"].Visible = false;
+
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex,"Error al cargar ordenes");
+            }
         }
 
         public void CargarEmployees()
         {
-            var _Employee = _EmployeeRepository.GetEmployees().Select(e => new EmployeeViewModel
+            try
             {
-                EmployeeId = e.EmployeeId,
-                FullName = e.FirstName + " " + e.LastName,
-            }).ToList();
-            cmbEmployee.DataSource = _Employee;
-            cmbEmployee.DisplayMember = "FullName";
-            cmbEmployee.ValueMember = "EmployeeId";
+                var _Employee = _EmployeeRepository.GetEmployees().Select(e => new EmployeeViewModel
+                {
+                    EmployeeId = e.EmployeeId,
+                    FullName = e.FirstName + " " + e.LastName,
+                }).ToList();
+                cmbEmployee.DataSource = _Employee;
+                cmbEmployee.DisplayMember = "FullName";
+                cmbEmployee.ValueMember = "EmployeeId";
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex, "Error al cargar Employees");
+            }
         }
-        public void CargarProductos()
+
+        public void CargarProducts()
         {
-            _products = _productRepository.GetProducts()
-               .Select(p => new ProductViewModel
-               {
-                   ProductId = p.ProductId,
-                   Product = p.ProductName,
-                   UnitPrice = p.UnitPrice ?? 0,
-                   Category = p.Category.CategoryName,
-                   Supplier = p.Supplier.CompanyName
-               })
-               .ToList();
+            try
+            {
+                _products = _productRepository.GetProducts()
+                   .Select(p => new ProductViewModel
+                   {
+                       ProductId = p.ProductId,
+                       Product = p.ProductName,
+                       UnitPrice = p.UnitPrice ?? 0,
+                       Category = p.Category.CategoryName,
+                       Supplier = p.Supplier.CompanyName
+                   })
+                   .ToList();
+            }
+            catch(Exception ex) 
+            {
+                logger.Error(ex, "Error al cargar Products");
+            }
         }
 
         public void CargarShippers()
         {
-            var _shipper = _shipperRepository.GetShipers().Select(s => new ShipperViewModel
+            try
             {
-                ShipperId = s.ShipperId,
-                CompanyName = s.CompanyName,
-                Phone = s.Phone,
-            }).ToList();
-            cmbShipVia.DataSource = _shipper;
-            cmbShipVia.DisplayMember = "CompanyName";
-            cmbShipVia.ValueMember = "ShipperId";
+                var _shipper = _shipperRepository.GetShipers().Select(s => new ShipperViewModel
+                {
+                    ShipperId = s.ShipperId,
+                    CompanyName = s.CompanyName,
+                    Phone = s.Phone,
+                }).ToList();
+                cmbShipVia.DataSource = _shipper;
+                cmbShipVia.DisplayMember = "CompanyName";
+                cmbShipVia.ValueMember = "ShipperId";
+            }
+            catch(Exception  ex)
+            {
+                logger.Error(ex, "Error al cargar Shippers");
+            }
         }
 
         public void CargarCustomer()
@@ -123,13 +154,11 @@ namespace DatabaseFirst.Forms.UI
                 PostalCode = c.PostalCode,
                 Region = c.Region,
                 Address = c.Address,
-
             }).ToList();
             bindingCustomer.DataSource = _customer;
             cmbCustomer.DataSource = bindingCustomer;
             cmbCustomer.DisplayMember = "ContactName";
             cmbCustomer.ValueMember = "CustomerId";
-
         }
 
         public void CargarDetails()
@@ -156,7 +185,6 @@ namespace DatabaseFirst.Forms.UI
 
         private void CargarOrderViewModel()
         {
-
             if (_ordersViewModel == null) _ordersViewModel = new OrdersViewModel();
             if (_detailViewModel == null) _detailViewModel = new DetailsViewModel();
 
@@ -174,8 +202,8 @@ namespace DatabaseFirst.Forms.UI
             _ordersViewModel.ShipPostalCode = txtPostalCode.Text;
             _ordersViewModel.ShipCountry = txtShipCountry.Text;
             _detailViewModel.OrderId = _ordersViewModel.OrderId;
-
         }
+
         private void ConfigurarEventos()
         {
             dataGridView2.EditingControlShowing += DataGridView2_EditingControlShowing;
@@ -195,7 +223,7 @@ namespace DatabaseFirst.Forms.UI
         {
             if (sender is ComboBox cb && cb.SelectedValue is int productId)
             {
-               var selectedProduct = _products.Find(p => p.ProductId == productId);
+                var selectedProduct = _products.Find(p => p.ProductId == productId);
                 if (selectedProduct == null) return;
 
                 var row = dataGridView2.CurrentRow;
@@ -263,6 +291,8 @@ namespace DatabaseFirst.Forms.UI
         {
             try
             {
+                logger.Info("Iniciando el proceso de guardado de factura con detalles.");
+
                 // 1. Convertir el ViewModel en entidad
                 var order = new Order
                 {
@@ -286,13 +316,16 @@ namespace DatabaseFirst.Forms.UI
                 {
                     foreach (var failure in results.Errors)
                     {
+                        logger.Warn("Error de validación: {0}", failure.ErrorMessage);
                         MessageBox.Show(failure.ErrorMessage, "Validation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     return;
                 }
+
                 // 2. Agregar la orden al contexto
                 _ordersRepository.Add(order);
-                _ordersRepository.Save(); // Necesario para obtener el OrderId
+                _ordersRepository.Save();
+                logger.Info("Orden guardada con ID: {0}", order.OrderId);
 
                 // 3. Recorrer DataGridView2 y construir los detalles
                 foreach (DataGridViewRow row in dataGridView2.Rows)
@@ -303,35 +336,39 @@ namespace DatabaseFirst.Forms.UI
                         row.Cells["Quantity"].Value == null ||
                         row.Cells["UnitPrice"].Value == null)
                     {
+                        logger.Warn("Fila {0} está incompleta. Cancelando operación.", row.Index + 1);
                         MessageBox.Show($"Fila {row.Index + 1} incompleta.");
                         return;
                     }
 
                     var detail = new OrderDetail
                     {
-                        OrderId = order.OrderId, // Aquí se vincula con la orden
+                        OrderId = order.OrderId,
                         ProductId = Convert.ToInt32(row.Cells["Product"].Value),
                         Quantity = Convert.ToInt16(row.Cells["Quantity"].Value),
                         UnitPrice = Convert.ToDecimal(row.Cells["UnitPrice"].Value),
-                        Discount = 0 // Si no estás usando descuentos
+                        Discount = 0
                     };
+
+                    logger.Info("Agregando detalle: ProductoId={0}, Cantidad={1}, Precio={2}",
+                        detail.ProductId, detail.Quantity, detail.UnitPrice);
 
                     _ordersRepository.AddDetail(detail);
                 }
 
                 // 4. Guardar todos los detalles
-                MessageBox.Show(order.OrderId.ToString());
                 _ordersRepository.Save();
-                
 
+                logger.Info("Factura y detalles guardados correctamente. OrderID: {0}", order.OrderId);
+                MessageBox.Show(order.OrderId.ToString());
                 MessageBox.Show("Factura y detalles guardados correctamente.");
             }
             catch (Exception ex)
             {
+                logger.Error(ex, "Error al guardar la factura con detalles.");
                 MessageBox.Show("Error al guardar: " + ex.Message);
             }
         }
-
 
         private void Llenartxt()
         {
@@ -344,9 +381,16 @@ namespace DatabaseFirst.Forms.UI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
-            CargarOrderViewModel();
-            GuardarFacturaConDetalles();
+            try
+            {
+                logger.Info("Usuario hizo clic en btnGuardar.");
+                CargarOrderViewModel();
+                GuardarFacturaConDetalles();
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Error al guardar la orden.");
+            }
         }
     }
 
@@ -369,6 +413,7 @@ namespace DatabaseFirst.Forms.UI
         public string? ShipPostalCode { get; set; }
         public string? ShipCountry { get; set; }
     }
+
     public class DetailsViewModel
     {
         public int OrderId { get; set; }
@@ -377,6 +422,7 @@ namespace DatabaseFirst.Forms.UI
         public short Quantity { get; set; }
         public float Discount { get; set; }
     }
+
     public class ProductViewModel
     {
         public int ProductId { get; set; }
@@ -387,6 +433,7 @@ namespace DatabaseFirst.Forms.UI
         public int? SupplierId { get; set; }
         public string? Supplier { get; set; }
     }
+
     public class CustomerViewModel()
     {
         public string CustomerId { get; set; } = null!;
@@ -399,6 +446,7 @@ namespace DatabaseFirst.Forms.UI
 
         public string? Country { get; set; }
     }
+
     public class ShipperViewModel()
     {
         public int ShipperId { get; set; }
@@ -407,6 +455,7 @@ namespace DatabaseFirst.Forms.UI
 
         public string? Phone { get; set; }
     }
+
     public class EmployeeViewModel()
     {
         public int EmployeeId { get; set; }
