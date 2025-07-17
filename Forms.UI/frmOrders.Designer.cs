@@ -71,8 +71,6 @@
             label15 = new Label();
             label16 = new Label();
             dateTimePicker3 = new DateTimePicker();
-            label1 = new Label();
-            label18 = new Label();
             bindingCustomer = new BindingSource(components);
             button1 = new Button();
             dateTimePicker2 = new DateTimePicker();
@@ -82,6 +80,8 @@
             button3 = new Button();
             menuStrip1 = new MenuStrip();
             suppliersToolStripMenuItem = new ToolStripMenuItem();
+            label18 = new Label();
+            labelTotal = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
@@ -119,6 +119,7 @@
             dataGridView2.RowHeadersWidth = 51;
             dataGridView2.Size = new Size(956, 240);
             dataGridView2.TabIndex = 1;
+            dataGridView2.CellEndEdit += dataGridView2_CellEndEdit;
             dataGridView2.CellValueChanged += dataGridView2_CellValueChanged;
             // 
             // Product
@@ -436,26 +437,6 @@
             dateTimePicker3.Size = new Size(152, 27);
             dateTimePicker3.TabIndex = 33;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
-            label1.Location = new Point(889, 630);
-            label1.Name = "label1";
-            label1.Size = new Size(53, 23);
-            label1.TabIndex = 34;
-            label1.Text = "Total";
-            // 
-            // label18
-            // 
-            label18.AutoSize = true;
-            label18.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
-            label18.Location = new Point(796, 630);
-            label18.Name = "label18";
-            label18.Size = new Size(60, 23);
-            label18.TabIndex = 36;
-            label18.Text = "Total:";
-            // 
             // button1
             // 
             button1.BackColor = Color.FromArgb(40, 167, 69);
@@ -486,6 +467,7 @@
             txtFreight.Size = new Size(79, 31);
             txtFreight.TabIndex = 39;
             txtFreight.Text = "0";
+            txtFreight.TextChanged += txtFreight_TextChanged;
             // 
             // dataGridView3
             // 
@@ -530,17 +512,41 @@
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.RenderMode = ToolStripRenderMode.Professional;
-            menuStrip1.Size = new Size(989, 41);
+            menuStrip1.Size = new Size(1839, 41);
             menuStrip1.TabIndex = 43;
             menuStrip1.Text = "menuStrip1";
             // 
-            
+            // suppliersToolStripMenuItem
+            // 
+            suppliersToolStripMenuItem.Name = "suppliersToolStripMenuItem";
+            suppliersToolStripMenuItem.Size = new Size(14, 37);
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
+            label18.Location = new Point(796, 630);
+            label18.Name = "label18";
+            label18.Size = new Size(60, 23);
+            label18.TabIndex = 36;
+            label18.Text = "Total:";
+            // 
+            // labelTotal
+            // 
+            labelTotal.AutoSize = true;
+            labelTotal.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
+            labelTotal.Location = new Point(889, 630);
+            labelTotal.Name = "labelTotal";
+            labelTotal.Size = new Size(53, 23);
+            labelTotal.TabIndex = 34;
+            labelTotal.Text = "Total";
+            // 
             // frmOrders
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(989, 670);
+            ClientSize = new Size(1839, 670);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(dataGridView3);
@@ -548,7 +554,7 @@
             Controls.Add(dateTimePicker2);
             Controls.Add(button1);
             Controls.Add(label18);
-            Controls.Add(label1);
+            Controls.Add(labelTotal);
             Controls.Add(dateTimePicker3);
             Controls.Add(label16);
             Controls.Add(label15);
@@ -628,8 +634,6 @@
         private Label label15;
         private Label label16;
         private DateTimePicker dateTimePicker3;
-        private Label label1;
-        private Label label18;
         private BindingSource bindingCustomer;
         private DataGridViewComboBoxColumn Product;
         private DataGridViewTextBoxColumn UnitPrice;
@@ -646,5 +650,7 @@
         private Button button3;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem suppliersToolStripMenuItem;
+        private Label label18;
+        private Label labelTotal;
     }
 }

@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using NLog;
 
 namespace DatabaseFirst.Forms.UI
 {
@@ -16,6 +8,8 @@ namespace DatabaseFirst.Forms.UI
         private readonly frmOrders _frmorders;
         private readonly frmProducts _frmproducts;
         private readonly frmSuppliers _frmSuppliers;
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
         public frmInicio(frmCategories frmcategories, frmOrders frmorders, frmProducts frmproducts, frmSuppliers frmSuppliers)
         {
             InitializeComponent();
@@ -23,26 +17,63 @@ namespace DatabaseFirst.Forms.UI
             _frmorders = frmorders;
             _frmproducts = frmproducts;
             _frmSuppliers = frmSuppliers;
+            logger.Info("FrmInicio inicializado correctamente");
         }
 
         private void categoriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _frmcategories.ShowDialog();
+            try
+            {
+                logger.Info("Cargando frmCategory");
+                _frmcategories.ShowDialog();
+                logger.Info("frmCategory inicializado correctamente");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Erorr al cargar frmCategory");
+            }
         }
 
         private void productsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _frmproducts.ShowDialog();
+            try
+            {
+                logger.Info("Cargando frmproducts");
+                _frmproducts.ShowDialog();
+                logger.Info("frmproducts inicializado correctamente");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Erorr al cargar frmproducts");
+            }
         }
 
         private void suppliersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _frmSuppliers.ShowDialog();
+            try
+            {
+                logger.Info("Cargando frmSuppliers");
+                _frmSuppliers.ShowDialog();
+                logger.Info("frmSuppliers inicializado correctamente");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Erorr al cargar frmSuppliers");
+            }
         }
 
         private void ordersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _frmorders.ShowDialog(); 
+            try
+            {
+                logger.Info("Cargando frmorders");
+                _frmorders.ShowDialog();
+                logger.Info("frmorders inicializado correctamente");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Erorr al cargar frmorders");
+            }
         }
     }
 }

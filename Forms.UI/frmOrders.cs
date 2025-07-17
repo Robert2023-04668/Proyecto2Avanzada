@@ -20,8 +20,8 @@ namespace DatabaseFirst.Forms.UI
         private OrderValidation _ordersvalidation;
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private List<ProductViewModel> _products = new();
-      
-        
+
+
 
         public frmOrders(IOrdersRepository ordersRepository, IProductRepository productRepository, CustomerRepository customerRepository, IShipper shipperRepository, IEmployee EmployeeRepository, OrderValidation ordersvalidation)
         {
@@ -244,7 +244,22 @@ namespace DatabaseFirst.Forms.UI
             {
                 int quantity = Convert.ToInt32(row.Cells["Quantity"].Value);
                 decimal precio = Math.Round(Convert.ToDecimal(row.Cells["UnitPrice"].Value), 2);
-                row.Cells["ExtendedPrice"].Value = quantity * precio;
+                decimal discount = Convert.ToDecimal(row.Cells["Discount"].Value);
+                decimal discount2 = 0;
+                if (discount > 1)
+                {
+                    MessageBox.Show("El descuento no puede ser mayor al 100%");
+                    return;
+                }
+                if (discount != null)
+                {
+                    discount2 += (quantity * precio) * discount;
+                    row.Cells["ExtendedPrice"].Value = (quantity * precio) - discount2;
+                }
+                else
+                {
+                    row.Cells["ExtendedPrice"].Value = quantity * precio;
+                }
                 totalsi();
             }
         }
@@ -252,13 +267,40 @@ namespace DatabaseFirst.Forms.UI
         private void totalsi()
         {
             decimal total = 0;
+            decimal freigh = 0;
+
+            if (!decimal.TryParse(txtFreight.Text, out freigh))
+            {
+                freigh = 0;
+            }
             foreach (DataGridViewRow row in dataGridView2.Rows)
             {
                 int quantity = Convert.ToInt32(row.Cells["Quantity"].Value);
                 decimal precio = Convert.ToDecimal(row.Cells["UnitPrice"].Value);
-                total += quantity * precio;
+                decimal discount = Convert.ToDecimal(row.Cells["Discount"].Value);
+                decimal discount2 = 0;
+
+                if (discount > 1)
+                {
+                    MessageBox.Show("El descuento no puede ser mayor al 100%");
+                    return;
+                }
+                else if (discount != null)
+                {
+                    discount2 += (quantity * precio) * discount;
+                    total += (quantity * precio) - discount2;
+                }
+                else
+                {
+                    total += quantity * precio;
+                }
             }
             label2.Text = total.ToString("0.00");
+            if (freigh > 0)
+            {
+                total = total + (freigh * 2);
+                labelTotal.Text = total.ToString("0.00");
+            }
         }
 
         private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -311,6 +353,7 @@ namespace DatabaseFirst.Forms.UI
                     ShipRegion = _ordersViewModel.ShipRegion,
                     ShipPostalCode = _ordersViewModel.ShipPostalCode,
                     ShipCountry = _ordersViewModel.ShipCountry
+                   
                 };
 
                 var results = _ordersvalidation.Validate(_ordersViewModel);
@@ -349,7 +392,7 @@ namespace DatabaseFirst.Forms.UI
                         ProductId = Convert.ToInt32(row.Cells["Product"].Value),
                         Quantity = Convert.ToInt16(row.Cells["Quantity"].Value),
                         UnitPrice = Convert.ToDecimal(row.Cells["UnitPrice"].Value),
-                        Discount = 0
+                        Discount = float.Parse((string)row.Cells[ "Discount"].Value),
                     };
 
                     logger.Info("Agregando detalle: ProductoId={0}, Cantidad={1}, Precio={2}",
@@ -388,11 +431,39 @@ namespace DatabaseFirst.Forms.UI
                 logger.Info("Usuario hizo clic en btnGuardar.");
                 CargarOrderViewModel();
                 GuardarFacturaConDetalles();
+                CargarOrdenes();
+                CargarDetails();
             }
             catch (Exception ex)
             {
                 logger.Error(ex, "Error al guardar la orden.");
             }
+        }
+
+        private void dataGridView2_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dataGridView2.Columns[e.ColumnIndex].Name == "Quantity")
+            {
+                DataGridViewRow row = dataGridView2.Rows[e.RowIndex];
+                CalcularTotal(row);
+            }
+            if (dataGridView2.Columns[e.ColumnIndex].Name == "Discount")
+            {
+                DataGridViewRow row = dataGridView2.Rows[e.RowIndex];
+                CalcularTotal(row);
+            }
+            if (dataGridView2.Columns[e.ColumnIndex].Name == "UnitPrice")
+            {
+                DataGridViewRow row = dataGridView2.Rows[e.RowIndex];
+                CalcularTotal(row);
+            }
+
+        }
+
+        private void txtFreight_TextChanged(object sender, EventArgs e)
+        {
+            totalsi();
+
         }
     }
 
