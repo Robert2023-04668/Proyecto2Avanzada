@@ -42,6 +42,7 @@ namespace DatabaseFirst
                 services.AddDbContext<NorthwindContext>(options =>
                 {
                     options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+   
                 });
 
                 // Repositorios y formularios

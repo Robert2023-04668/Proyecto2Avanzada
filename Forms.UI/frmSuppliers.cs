@@ -171,6 +171,15 @@ namespace DatabaseFirst.Forms.UI
 
             CargarTxt();
         }
+
+        private void Deletebtn_Click(object sender, EventArgs e)
+        {
+            var dialog = MessageBox.Show("Esta seguro de quere eliminar este producto?", "Elimination", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (dialog == DialogResult.OK)
+            {
+                _supplierRepository.Delete(_supplierViewModel.SupplierId);
+            }
+        }
     }
 
     public class SuppliersViewModel

@@ -20,6 +20,8 @@ namespace DatabaseFirst.Forms.UI
         private OrderValidation _ordersvalidation;
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private List<ProductViewModel> _products = new();
+      
+        
 
         public frmOrders(IOrdersRepository ordersRepository, IProductRepository productRepository, CustomerRepository customerRepository, IShipper shipperRepository, IEmployee EmployeeRepository, OrderValidation ordersvalidation)
         {
@@ -78,7 +80,7 @@ namespace DatabaseFirst.Forms.UI
             }
             catch (Exception ex)
             {
-                logger.Error(ex,"Error al cargar ordenes");
+                logger.Error(ex, "Error al cargar ordenes");
             }
         }
 
@@ -95,7 +97,7 @@ namespace DatabaseFirst.Forms.UI
                 cmbEmployee.DisplayMember = "FullName";
                 cmbEmployee.ValueMember = "EmployeeId";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.Error(ex, "Error al cargar Employees");
             }
@@ -116,7 +118,7 @@ namespace DatabaseFirst.Forms.UI
                    })
                    .ToList();
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 logger.Error(ex, "Error al cargar Products");
             }
@@ -136,7 +138,7 @@ namespace DatabaseFirst.Forms.UI
                 cmbShipVia.DisplayMember = "CompanyName";
                 cmbShipVia.ValueMember = "ShipperId";
             }
-            catch(Exception  ex)
+            catch (Exception ex)
             {
                 logger.Error(ex, "Error al cargar Shippers");
             }

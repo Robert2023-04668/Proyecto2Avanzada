@@ -92,7 +92,7 @@ namespace DatabaseFirst.Forms.UI
                         Description = _categoryViewModel.Description,
                         Picture = _categoryViewModel.Picture,
                     };
-                    _categoryRepository.Add(newCategory);
+                    _categoryRepository.Update(newCategory);
                 }
             }
             CargarDatos();
@@ -117,6 +117,20 @@ namespace DatabaseFirst.Forms.UI
                 };
 
                 LimpiarTextbox();
+            }
+        }
+
+        private void Deletebtn_Click(object sender, EventArgs e)
+        {
+         if(_categoryViewModel.CategoryId != 0)
+            {
+              var dialog =  MessageBox.Show("Esta seguro  de quere eliminar esta categoria?","Borrado",MessageBoxButtons.OKCancel);
+                if (dialog == DialogResult.OK)
+                {
+                    _categoryRepository.Delete(_categoryViewModel.CategoryId);
+                    MessageBox.Show("Producto eliminado satisfactoriamente");
+                    CargarDatos();
+                }
             }
         }
     }
